@@ -1,0 +1,27 @@
+head
+  title asteroid
+
+body
+  .row
+    .six.columns
+      {{> hello}}
+
+template(name="hello")
+  h1 Hello World!
+
+  input(type="text", id="search", placeholder="Search")
+
+  ul
+    {{#each messages}}
+      {{> message_body}}
+    {{/each}}
+
+  input(type="text", id="message_input")
+  input(type="button", value="Post", id="submit", class="button")
+  input(type="button", value="Clear", id="clear", class="button")
+
+template(name="message_body")
+  li
+    {{#if body}}
+      {{body}}
+    {{/if}}
