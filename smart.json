@@ -5,6 +5,7 @@
   },
   "packages": {
     "stylus-mixin": {},
-    "foundation-custom": {}
+    "foundation-custom": {},
+    "livescript": {}
   }
 }

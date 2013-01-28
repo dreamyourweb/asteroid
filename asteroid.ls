@@ -2,10 +2,10 @@ if Meteor.isClient
   
   Session.set 'query', ""
 
-  Template.hello.greeting ->
+  Template.hello.greeting = ->
     "Welcome to asteroid."
 
-  Template.hello.messages ->
+  Template.hello.messages = ->
     if Session.equals 'query',"" 
       Messages.find()
     else
@@ -14,12 +14,12 @@ if Meteor.isClient
 
   Template.hello.events(
     'click #submit' : !->
-      body = $("input#message_input").val()
-      Messages.insert {body: body}
+      body = $('input#message_input').val()
+      Messages.insert (body: body)
     'click #clear' : !->
       Messages.remove({})
     'keyup #search' : !->
-      Session.set('query', $("input#search").val())
+      Session.set('query', $('input#search').val())
   )
 
 if Meteor.isServer
