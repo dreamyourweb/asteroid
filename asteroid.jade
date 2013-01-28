@@ -4,6 +4,7 @@ head
 body
   .row
     .six.columns
+      {{> gridster}}
       {{> hello}}
 
 template(name="hello")
@@ -25,3 +26,11 @@ template(name="message_body")
     {{#if body}}
       {{body}}
     {{/if}}
+
+template(name="gridster")
+  .gridster
+    ul
+      {{#each tiles}}
+        {{{html}}}
+      {{/each}}
+
