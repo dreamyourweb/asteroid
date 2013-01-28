@@ -2,36 +2,57 @@ head
   title asteroid
 
 body
+  {{> toolbar}}
+  {{> gridster}}
+
+
+template(name="toolbar")
+
   .row
-    .six.columns
-      {{> gridster}}
-      {{> hello}}
+    .six.colums
+      form.custom
+        .row
+          .three.columns
+            select#selectX(style="display:none;")
+              option 1
+              option 2
+              option 3
+            .custom.dropdown
+              a.current(href="#") 1
+              a.selector(href="#")
+              ul
+                li 1
+                li 2
+                li 3
 
-template(name="hello")
-  h1 Hello World!
+          .one.column
+            label x
 
-  input(type="text", id="search", placeholder="Search")
+          .three.columns
+            select#selectY(style="display:none;")
+              option 1
+              option 2
+              option 3
+            .custom.dropdown
+              a.current(href="#") 1
+              a.selector(href="#")
+              ul
+                li 1
+                li 2
+                li 3
 
-  ul
-    {{#each messages}}
-      {{> message_body}}
-    {{/each}}
-
-  input(type="text", id="message_input")
-  input(type="button", value="Post", id="submit", class="button")
-  input(type="button", value="Clear", id="clear", class="button")
-
-template(name="message_body")
-  li
-    {{#if body}}
-      {{body}}
-    {{/if}}
+          .five.columns
+            input(type="button", class="button small", value="Add", id="addTile")
+            input(type="button", class="button small", value="Clear", id="clearAllTiles")
 
 template(name="gridster")
-  .gridster
-    ul
-      {{#each tiles}}
-        li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile")
-          {{col}}
-      {{/each}}
+  .row
+    .twelve.columns
+      .gridster
+        ul
+          {{#each tiles}}
+            li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")
+              h2 {{col}},{{row}}
+              {{_id}}
+          {{/each}}
 
