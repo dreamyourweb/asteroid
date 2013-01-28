@@ -31,6 +31,6 @@ template(name="gridster")
   .gridster
     ul
       {{#each tiles}}
-        {{{html}}}
+        li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile")
       {{/each}}
 

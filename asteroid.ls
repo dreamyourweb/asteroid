@@ -56,11 +56,7 @@ if Meteor.isClient
       {"col": "6", "row": "1", "size_x" : "1", "size_y": "1"},
       {"col": "6", "row": "2", "size_x" : "1", "size_y": "2"}]
 
-    tiles = []
-    for tile, i in gridster_data
-      tiles.push(html:"<li class='metro-tile' data-col=\"" + tile.col + "\" data-row=\"" + tile.row + "\" data-sizex=\"" + tile.size_x + "\" data-sizey=\"" + tile.size_y + "\" class=\"metro-tile\"></li>")
-    tiles
- 
+    return gridster_data
 
   Template.gridster.rendered = ->
     $('.gridster ul').gridster(
