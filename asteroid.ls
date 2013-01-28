@@ -32,14 +32,9 @@ if Meteor.isClient
         LiveTiles.update(ltiles._id, $set: {tiles: gridster.serialize()})
       else
         LiveTiles.insert(tiles: gridster.serialize())
-
-      # Session.set 'gridster', gridster.serialize()
   )
 
   Template.gridster.tiles = ->
-    # $(".gridster ul").gridster(widget_margins: [10, 10],widget_base_dimensions: [140, 140])
-    # gridster = $("gridster ul").gridster().data('gridster')
-    # alert(gridster)
     if LiveTiles.findOne() != undefined
       gridster_data = LiveTiles.findOne().tiles;
     else
@@ -66,7 +61,6 @@ if Meteor.isClient
     $('.gridster').width($('.row').width())
 
     tileElements = document.getElementsByClassName('metro-tile')
-
     for i from 0 to tileElements.length
       Tile( tileElements[i])
 
