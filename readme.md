@@ -1,3 +1,9 @@
 #### Asteroid
 
-This app is for trying the awesome meteor javascript framework.
+Sandbox app for meteor.
+
+Use meteorite to run the project and install packages
+
+```
+mrt
+```

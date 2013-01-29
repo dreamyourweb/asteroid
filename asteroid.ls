@@ -1,10 +1,10 @@
 LiveTiles = new Meteor.Collection("livetiles")
 
 function updateTiles
-    gridster = $(".gridster ul").gridster().data('gridster')
-    changed_tiles = gridster.serialize_changed()
-    for tile, i in changed_tiles
-      LiveTiles.update(tile.id, $set: {col: tile.col, row: tile.row})
+  gridster = $(".gridster ul").gridster().data('gridster')
+  changed_tiles = gridster.serialize_changed()
+  for tile, i in changed_tiles
+    LiveTiles.update(tile.id, $set: {col: tile.col, row: tile.row})
 
 if Meteor.isClient
 
