@@ -9,7 +9,7 @@ body
 template(name="toolbar")
 
   .row
-    .six.colums
+    .seven.colums
       form.custom
         .row
           .three.columns
@@ -25,9 +25,6 @@ template(name="toolbar")
                 li 2
                 li 3
 
-          .one.column
-            label x
-
           .three.columns
             select#selectY(style="display:none;")
               option 1
@@ -41,7 +38,10 @@ template(name="toolbar")
                 li 2
                 li 3
 
-          .five.columns
+          .three.columns
+            input(type="text", id="tileText")
+
+          .three.columns
             input(type="button", class="button small", value="Add", id="addTile")
             input(type="button", class="button small", value="Clear", id="clearAllTiles")
 
@@ -52,7 +52,14 @@ template(name="gridster")
         ul
           {{#each tiles}}
             li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")
-              h2 {{col}},{{row}}
+              a(href="", class="remove-tile") &times
+              h2
+                {{#if text}}
+                  {{text}}
+                {{else}}
+                  {{col}},{{row}}
+                {{/if}}
               {{_id}}
+
           {{/each}}
 

@@ -13,8 +13,28 @@ if Meteor.isClient
 
   Template.toolbar.events(
     'click #addTile' : !->
-      LiveTiles.insert(size_x: parseInt($('#selectX').val()), size_y: parseInt($('#selectY').val()))
-  )
+      gridster = $(".gridster ul").gridster().data('gridster')
+      tile = gridster.add_widget("<li id='newTile' class='metro-tile'><h2>"+$('#tileText').val()+"</h2></li>", parseInt($('#selectX').val()),parseInt($('#selectY').val()),1,1)
+      tile = gridster.serialize(tile)[0]
+      Meteor.setTimeout(!-> (
+        updateTiles()
+        LiveTiles.insert({col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: $('#tileText').val()})
+        ), 500)
+    'click #clearAllTiles' : !->
+      LiveTiles.remove({})   
+    )
+
+  Template.gridster.events(
+    'click .remove-tile' : (e)->
+      gridster = $(".gridster ul").gridster().data('gridster')
+      gridster.remove_widget($(e.currentTarget).parent())
+      Meteor.setTimeout(!-> (
+        updateTiles()
+        LiveTiles.remove($(e.currentTarget).parent()[0].id)
+        ), 500)
+
+      false
+    )
 
   Template.gridster.rendered = ->
     $('.gridster ul').gridster(
@@ -32,4 +52,3 @@ if Meteor.isClient
  
 if Meteor.isServer
   Meteor.startup !->
-    # LiveTiles.insert({col:1, row:1, size_x:1, size_y:1})
