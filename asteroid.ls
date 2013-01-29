@@ -32,7 +32,6 @@ if Meteor.isClient
         updateTiles()
         LiveTiles.remove($(e.currentTarget).parent()[0].id)
         ), 500)
-
       false
     )
 
@@ -49,6 +48,11 @@ if Meteor.isClient
 
     )
 
+  Meteor.autosubscribe(->
+    Meteor.subscribe("livetiles")
+    )
+
  
 if Meteor.isServer
-  Meteor.startup !->
+  Meteor.publish("livetiles", ->
+    LiveTiles.find({}))
