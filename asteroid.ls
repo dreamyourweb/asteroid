@@ -1,4 +1,5 @@
 LiveTiles = new Meteor.Collection("livetiles")
+TimeEntries = new TimeEntriesCollection("timeentries")
 
 function updateTiles
   gridster = $(".gridster ul").gridster().data('gridster')
@@ -8,8 +9,11 @@ function updateTiles
 
 if Meteor.isClient
 
+  Template.toggl.time_last_month = ->
+    TimeEntries.lastMonthTotal()/3600
+
   Template.gridster.tiles = ->
-    return LiveTiles.find().fetch()
+    LiveTiles.find().fetch()
 
   Template.toolbar.events(
     'click #addTile' : !->
@@ -48,11 +52,19 @@ if Meteor.isClient
 
     )
 
-  Meteor.autosubscribe(->
+  Meteor.autosubscribe ->
     Meteor.subscribe("livetiles")
-    )
+    Meteor.subscribe("timeentries")
 
  
 if Meteor.isServer
+  Meteor.publish("timeentries", ->
+    TimeEntries.find({}))
   Meteor.publish("livetiles", ->
     LiveTiles.find({}))
+
+  Meteor.startup ->
+    Meteor.call 'getTogglTimeEntries', (e, result) ->
+      TimeEntries.remove({})
+      TimeEntries.insertFromJSON(JSON.parse(result.content))
+      

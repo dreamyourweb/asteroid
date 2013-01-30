@@ -3,7 +3,13 @@ head
 
 body
   {{> toolbar}}
+  {{> toggl}}
   {{> gridster}}
+
+template(name="toggl")
+  .row
+    .twelve.columns
+      {{time_last_month}} uur
 
 
 template(name="toolbar")
@@ -51,15 +57,17 @@ template(name="gridster")
       .gridster
         ul
           {{#each tiles}}
-            li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")
-              a(href="", class="remove-tile") &times
-              h2
-                {{#if text}}
-                  {{text}}
-                {{else}}
-                  {{col}},{{row}}
-                {{/if}}
-              {{_id}}
-
+            {{> tile}}
           {{/each}}
+
+template(name="tile")
+  li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")
+    a(href="", class="remove-tile") &times
+    h2
+      {{#if text}}
+        {{text}}
+      {{else}}
+        {{col}},{{row}}
+      {{/if}}
+    {{_id}}
 
