@@ -10,3 +10,7 @@ class TimeEntriesCollection extends Meteor.Collection
   insertFromJSON: (json) ~>
     for time_entry, i in json.data
       this.insert(time_entry)
+
+
+class User extends Model
+  @_collection = new Meteor.Collection("users")

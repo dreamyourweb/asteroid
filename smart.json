@@ -6,6 +6,7 @@
   "packages": {
     "stylus-mixin": {},
     "foundation-custom": {},
-    "livescript": {}
+    "livescript": {},
+    "jade-handlebars": {}
   }
 }

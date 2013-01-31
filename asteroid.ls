@@ -9,11 +9,14 @@ function updateTiles
 
 if Meteor.isClient
 
-  Template.toggl.time_last_month = ->
-    TimeEntries.lastMonthTotal()/3600
-
   Template.gridster.tiles = ->
     LiveTiles.find().fetch()
+
+  Template.tile.metric = ->
+    if this.type == "Toggl"
+      "#{(TimeEntries.lastMonthTotal()/3600).toFixed(2)} uur"
+    else
+      "#{this.row},#{this.col}"
 
   Template.toolbar.events(
     'click #addTile' : !->
@@ -22,7 +25,7 @@ if Meteor.isClient
       tile = gridster.serialize(tile)[0]
       Meteor.setTimeout(!-> (
         updateTiles()
-        LiveTiles.insert({col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: $('#tileText').val()})
+        LiveTiles.insert({col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: $('#tileText').val(), type: $('#selectType').val()})
         ), 500)
     'click #clearAllTiles' : !->
       LiveTiles.remove({})   
@@ -55,6 +58,7 @@ if Meteor.isClient
   Meteor.autosubscribe ->
     Meteor.subscribe("livetiles")
     Meteor.subscribe("timeentries")
+    Meteor.subscribe("users")
 
  
 if Meteor.isServer
@@ -62,9 +66,11 @@ if Meteor.isServer
     TimeEntries.find({}))
   Meteor.publish("livetiles", ->
     LiveTiles.find({}))
+  Meteor.publish("users", ->
+    LiveTiles.find({}))
 
   Meteor.startup ->
     Meteor.call 'getTogglTimeEntries', (e, result) ->
-      TimeEntries.remove({})
-      TimeEntries.insertFromJSON(JSON.parse(result.content))
+      # TimeEntries.remove({})
+      # TimeEntries.insertFromJSON(JSON.parse(result.content))
       

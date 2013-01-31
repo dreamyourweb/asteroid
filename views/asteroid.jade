@@ -3,22 +3,15 @@ head
 
 body
   {{> toolbar}}
-  {{> toggl}}
   {{> gridster}}
-
-template(name="toggl")
-  .row
-    .twelve.columns
-      {{time_last_month}} uur
-
 
 template(name="toolbar")
 
   .row
-    .seven.colums
+    .twelve.colums
       form.custom
         .row
-          .three.columns
+          .two.columns
             select#selectX(style="display:none;")
               option 1
               option 2
@@ -31,7 +24,7 @@ template(name="toolbar")
                 li 2
                 li 3
 
-          .three.columns
+          .two.columns
             select#selectY(style="display:none;")
               option 1
               option 2
@@ -44,10 +37,23 @@ template(name="toolbar")
                 li 2
                 li 3
 
-          .three.columns
+          .two.columns
             input(type="text", id="tileText")
 
-          .three.columns
+          .four.columns
+            select#selectType(style="display:none;")
+              option Toggl
+              option Text
+              option None
+            .custom.dropdown
+              a.current(href="#") Text
+              a.selector(href="#")
+              ul
+                li Toggl
+                li Text
+                li None
+
+          .two.columns
             input(type="button", class="button small", value="Add", id="addTile")
             input(type="button", class="button small", value="Clear", id="clearAllTiles")
 
@@ -64,10 +70,6 @@ template(name="tile")
   li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")
     a(href="", class="remove-tile") &times
     h2
-      {{#if text}}
-        {{text}}
-      {{else}}
-        {{col}},{{row}}
-      {{/if}}
+      {{metric}}
     {{_id}}
 
