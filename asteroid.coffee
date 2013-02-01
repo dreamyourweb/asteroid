@@ -1,9 +1,9 @@
-LiveTiles = new Meteor.Collection("livetiles")
-TimeEntries = new TimeEntriesCollection("timeentries")
+LiveTiles = new Meteor.Collection "livetiles"
+TimeEntries = new TimeEntriesCollection "timeentries"
 
-function updateTiles
+updateTiles = ->
   gridster = $(".gridster ul").gridster().data('gridster')
-  changed_tiles = gridster.serialize_changed()
+  changed_tiles = gridster.serialize_changed
   for tile, i in changed_tiles
     LiveTiles.update(tile.id, $set: {col: tile.col, row: tile.row})
 
@@ -19,15 +19,15 @@ if Meteor.isClient
       "#{this.row},#{this.col}"
 
   Template.toolbar.events(
-    'click #addTile' : !->
+    'click #addTile' : ->
       gridster = $(".gridster ul").gridster().data('gridster')
       tile = gridster.add_widget("<li id='newTile' class='metro-tile'><h2>"+$('#tileText').val()+"</h2></li>", parseInt($('#selectX').val()),parseInt($('#selectY').val()),1,1)
       tile = gridster.serialize(tile)[0]
-      Meteor.setTimeout(!-> (
+      Meteor.setTimeout ->
         updateTiles()
-        LiveTiles.insert({col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: $('#tileText').val(), type: $('#selectType').val()})
-        ), 500)
-    'click #clearAllTiles' : !->
+        LiveTiles.insert {col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: $('#tileText').val(), type: $('#selectType').val()}
+        ,500
+    'click #clearAllTiles' : ->
       LiveTiles.remove({})   
     )
 
@@ -35,10 +35,10 @@ if Meteor.isClient
     'click .remove-tile' : (e)->
       gridster = $(".gridster ul").gridster().data('gridster')
       gridster.remove_widget($(e.currentTarget).parent())
-      Meteor.setTimeout(!-> (
-        updateTiles()
-        LiveTiles.remove($(e.currentTarget).parent()[0].id)
-        ), 500)
+      Meteor.setTimeout ->
+        updateTiles
+        LiveTiles.remove $(e.currentTarget).parent()[0].id
+        , 500
       false
     )
 
@@ -67,7 +67,7 @@ if Meteor.isServer
   Meteor.publish("livetiles", ->
     LiveTiles.find({}))
   Meteor.publish("users", ->
-    LiveTiles.find({}))
+    User._collection.find({}))
 
   Meteor.startup ->
     Meteor.call 'getTogglTimeEntries', (e, result) ->

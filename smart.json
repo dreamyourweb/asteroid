@@ -7,6 +7,9 @@
     "stylus-mixin": {},
     "foundation-custom": {},
     "livescript": {},
-    "jade-handlebars": {}
+    "jade-handlebars": {},
+    "minimongoid": {
+      "path": "/minimongoid/"
+    }
   }
 }
