@@ -1,7 +1,7 @@
 class Minimongoid
   id: undefined
   attributes: {}
-  _saved_attributes: {}
+  _saved_attributes: undefined
   @fields: {}
 
   constructor: (attributes = {}) ->
@@ -12,18 +12,26 @@ class Minimongoid
       @attributes = attributes
 
     for field, opts of @constructor.fields
-      if not @attributes.hasOwnProperty field
+      unless @attributes.hasOwnProperty field
         @attributes[field] = opts.default
+        @makeProperty field
 
   isPersisted: -> @id?
 
   isValid: -> true
 
   hasChanged: ->
-    @_saved_attributes isnt @attributes
+    changed = false
+    if @_saved_attributes
+      for el of @_saved_attributes
+        unless @_saved_attributes[el] is @attributes[el]
+          changed = true
+      return changed
+    else
+      true
 
   resetChanges: ->
-    @attributes = @_saved_attributes
+    @attributes = clone(@_saved_attributes)
 
   was: (field) ->
     if field
@@ -37,9 +45,22 @@ class Minimongoid
   set: (field,value) ->
     @attributes[field] = value
 
+  insert: (attributes) ->
+    $.extend(@attributes, attributes)
+    for field, value of attributes
+      @makeProperty field
+
+    this
+
+  makeProperty: (field) ->
+    Object.defineProperty this, field,
+            get: -> @get field
+            set: (value) ->
+              @set(field,value)
+
   save: ->
     return false unless @isValid()
-    @_saved_attributes = @attributes
+    @_saved_attributes = clone(@attributes)
     
     attributes = @mongoize(@attributes)
     attributes['_type'] = @constructor._type if @constructor._type?
@@ -49,6 +70,7 @@ class Minimongoid
     else
       @id = @constructor._collection.insert attributes
     
+    this
     
   update: (@attributes) ->
     @save()
