@@ -52,6 +52,9 @@ class Minimongoid
 
     this
 
+  # Add a field as a property. Note that if you assign a non-existing property
+  # this method will not be called and hence any assignment will be reflected
+  # in the attributes.
   makeProperty: (field) ->
     unless this[field]
       Object.defineProperty this, field,
