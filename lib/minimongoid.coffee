@@ -53,10 +53,11 @@ class Minimongoid
     this
 
   makeProperty: (field) ->
-    Object.defineProperty this, field,
-            get: -> @get field
-            set: (value) ->
-              @set(field,value)
+    unless this[field]
+      Object.defineProperty this, field,
+              get: -> @get field
+              set: (value) ->
+                @set(field,value)
 
   save: ->
     return false unless @isValid()
