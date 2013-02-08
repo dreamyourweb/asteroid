@@ -59,15 +59,21 @@ if Meteor.isClient
     Meteor.subscribe("livetiles")
     Meteor.subscribe("timeentries")
     Meteor.subscribe("users")
+    Meteor.subscribe("trellocardmoves")
+    Meteor.subscribe("trellocards")
 
  
 if Meteor.isServer
-  Meteor.publish("timeentries", ->
-    TimeEntries.find({}))
-  Meteor.publish("livetiles", ->
-    LiveTiles.find({}))
-  Meteor.publish("users", ->
-    User._collection.find({}))
+  Meteor.publish "timeentries", ->
+    TimeEntries.find({})
+  Meteor.publish "livetiles", ->
+    LiveTiles.find({})
+  Meteor.publish "users", ->
+    User._collection.find({})
+  Meteor.publish "trellocardmoves", ->
+    TrelloCardMove._collection.find({})
+  Meteor.publish "trellocards", ->
+    TrelloCard._collection.find({})
 
   Meteor.startup ->
     Meteor.call 'getTogglTimeEntries', (e, result) ->

@@ -14,7 +14,9 @@ class Minimongoid
     for field, opts of @constructor.fields
       unless @attributes.hasOwnProperty field
         @attributes[field] = opts.default
-        @makeProperty field
+
+    for field, value of @attributes
+      @makeProperty field
 
   isPersisted: -> @id?
 
@@ -56,7 +58,7 @@ class Minimongoid
   # this method will not be called and hence any assignment will not be reflected
   # in the attributes.
   makeProperty: (field) ->
-    unless this[field]
+    if this[field] == undefined
       Object.defineProperty this, field,
               get: -> @get field
               set: (value) ->
@@ -71,6 +73,7 @@ class Minimongoid
     
     if @isPersisted()
       @constructor._collection.update @id, { $set: attributes }
+        # @constructor._collection.insert attributes
     else
       @id = @constructor._collection.insert attributes
     
@@ -111,10 +114,15 @@ class Minimongoid
     @new(attributes).save()
 
   @where: (selector = {}, options = {}) ->
-    @_collection.find(selector, options)
+    @all(selector,options)
 
   @all: (selector = {}, options = {}) ->
-    @_collection.find(selector, options)
+    docs = []
+    for i, obj of @_collection.find(selector, options).fetch()
+      new_obj = @new(obj)
+      new_obj._saved_attributes = clone(new_obj.attributes)
+      docs.push(new_obj)
+    return docs
 
   @toArray: (selector = {}, options = {}) ->
     for attributes in @where(selector, options).fetch()

@@ -5,11 +5,11 @@
   },
   "packages": {
     "stylus-mixin": {},
-    "foundation-custom": {},
     "livescript": {},
     "jade-handlebars": {},
     "minimongoid": {
       "path": "/minimongoid/"
-    }
+    },
+    "ZURB Foundation":{}
   }
 }
