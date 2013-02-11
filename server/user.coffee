@@ -14,7 +14,7 @@ Meteor.methods getTrelloUserData: ->
   result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/members",
     params:
       key: "b21235703575c2c2844154615e41c3d4"
-      token: "dff76c247049f7706a8c190252f3b9b60e4e51f40f7a9b06103111d64c22809b"
+      token: _TRELLO_TOKEN
   )
   if result.statusCode is 200
     members = []
