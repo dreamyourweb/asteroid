@@ -69,7 +69,7 @@ if Meteor.isServer
   Meteor.publish "livetiles", ->
     LiveTiles.find({})
   Meteor.publish "users", ->
-    User._collection.find({})
+    Meteor.users.find({})
   Meteor.publish "trellocardmoves", ->
     TrelloCardMove._collection.find({})
   Meteor.publish "trellocards", ->
@@ -80,3 +80,4 @@ if Meteor.isServer
       # TimeEntries.remove({})
       # TimeEntries.insertFromJSON(JSON.parse(result.content))
       
+

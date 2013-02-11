@@ -46,6 +46,7 @@ class Minimongoid
 
   set: (field,value) ->
     @attributes[field] = value
+    @makeProperty field
 
   insert: (attributes) ->
     $.extend(@attributes, attributes)

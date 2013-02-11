@@ -1,7 +1,7 @@
 class TrelloCard extends Minimongoid
   @_collection: new Meteor.Collection 'trellocard'
 
-  @getCards: ->
+  @importCards: ->
     Meteor.call 'getTrelloCards', (e,cards) ->
       if cards?
         for i, card of cards
@@ -14,6 +14,20 @@ class TrelloCard extends Minimongoid
             console.log(old_card.update attributes)
           else
             console.log(TrelloCard.create attributes)
+
+  importActions: ->
+    Meteor.call 'getTrelloCardMoves', @attributes.card_id, (e,moves) =>
+      @insert {moves: moves}
+      console.log(@save())
+
+  timeline: ->
+    if @attributes.moves
+      card_moves = []
+      for i in [0..@attributes.moves.length-2]
+        action_string = "#{ @attributes.moves[i].data.listBefore.name } -> #{ @attributes.moves[i].data.listAfter.name }"
+        card_moves.push {dX: action_string ,dT: (new Date(@attributes.moves[i].date) - new Date(@attributes.moves[i+1].date))/1000/3600}
+      return card_moves
+    false
       
 
 Meteor.methods getTrelloCards: ->
@@ -25,6 +39,7 @@ Meteor.methods getTrelloCards: ->
       token: "dff76c247049f7706a8c190252f3b9b60e4e51f40f7a9b06103111d64c22809b"
   )
   if result.statusCode is 200
+    # return result
     cards = []
     for i, card of result.data
       do (card) ->
@@ -32,3 +47,28 @@ Meteor.methods getTrelloCards: ->
     return cards
 
   false
+
+
+Meteor.methods getTrelloCardMoves: (card_id) ->
+  result = undefined
+  @unblock()
+  result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
+    params:
+      key: "b21235703575c2c2844154615e41c3d4"
+      token: "dff76c247049f7706a8c190252f3b9b60e4e51f40f7a9b06103111d64c22809b"
+      filter: "updateCard,createCard"
+  )
+
+  # result = Meteor.http.call("GET", "https://api.trello.com/1/cards/#{card_id}/actions",
+  #   params:
+  #     key: "b21235703575c2c2844154615e41c3d4",
+  #     token: "dff76c247049f7706a8c190252f3b9b60e4e51f40f7a9b06103111d64c22809b" 
+  # )
+  if result.statusCode is 200
+    # return result
+    actions = []
+    for i, action of result.data
+      do (action) ->
+        if ((action.data.listBefore != undefined && action.type == "updateCard") || action.type == "createCard") && action.data.card.id == card_id
+          actions.push action
+    return actions

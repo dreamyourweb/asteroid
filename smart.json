@@ -5,7 +5,6 @@
   },
   "packages": {
     "stylus-mixin": {},
-    "livescript": {},
     "jade-handlebars": {},
     "minimongoid": {
       "path": "/minimongoid/"
