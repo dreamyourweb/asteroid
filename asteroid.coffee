@@ -18,6 +18,10 @@ if Meteor.isClient
     else
       "#{this.row},#{this.col}"
 
+  Template.toolbar.reactivity = ->
+    if card = TrelloCard.where(name: "Asteroid Test Card")[0]
+      card.react
+
   Template.toolbar.events(
     'click #addTile' : ->
       gridster = $(".gridster ul").gridster().data('gridster')
@@ -59,9 +63,8 @@ if Meteor.isClient
     Meteor.subscribe("livetiles")
     Meteor.subscribe("timeentries")
     Meteor.subscribe("users")
-    Meteor.subscribe("trellocardmoves")
     Meteor.subscribe("trellocards")
-
+    Meteor.subscribe("trellocardmoves")
  
 if Meteor.isServer
   Meteor.publish "timeentries", ->
@@ -70,10 +73,10 @@ if Meteor.isServer
     LiveTiles.find({})
   Meteor.publish "users", ->
     Meteor.users.find({})
-  Meteor.publish "trellocardmoves", ->
-    TrelloCardMove._collection.find({})
   Meteor.publish "trellocards", ->
     TrelloCard._collection.find({})
+  Meteor.publish "trellocardmoves", ->
+    TrelloCardMove._collection.find({})
 
   Meteor.startup ->
     Meteor.call 'getTogglTimeEntries', (e, result) ->

@@ -17,7 +17,7 @@ Meteor.methods getTrelloCards: ->
     false
 
 
-Meteor.methods getTrelloCardMoves: (card_id) ->
+Meteor.methods getTrelloCardMoves: ->
   result = undefined
   @unblock()
   result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
@@ -37,6 +37,6 @@ Meteor.methods getTrelloCardMoves: (card_id) ->
     actions = []
     for i, action of result.data
       do (action) ->
-        if ((action.data.listBefore != undefined && action.type == "updateCard") || action.type == "createCard") && action.data.card.id == card_id
+        if ((action.data.listBefore != undefined && action.type == "updateCard") || action.type == "createCard")
           actions.push action
     return actions
