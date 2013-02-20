@@ -2,14 +2,13 @@ class TrelloCardMove extends Minimongoid
   @_collection: new Meteor.Collection 'trellocardmoves'
 
   @importMoves: ->
-    for i, card of TrelloCard.all()
-      for j, move of card.timeline()
-        move = $.extend(move,{card_id: card.card_id})
-        if (old_move = TrelloCardMove.where({move_id: move.move_id})[0]) != undefined
-          old_move.update move
-          old_move.save()
-        else
-          console.log(TrelloCardMove.create move)
+    Meteor.call 'getTrelloCardMoves', (e,moves) ->
+      if moves?
+        for i, move of moves
+          if (old_move = TrelloCardMove.where(_id: move.id)[0]) != undefined
+            console.log(old_move.update move)
+          else
+            console.log(TrelloCardMove.create move)
 
 
 class TrelloCard extends Minimongoid
@@ -20,48 +19,43 @@ class TrelloCard extends Minimongoid
     Meteor.call 'getTrelloCards', (e,cards) ->
       if cards?
         for i, card of cards
-          bsc_amount = card.desc.match(/BSC:(.|\n)*- (\d*)€/)
-          bsc_amount = parseFloat(bsc_amount[bsc_amount.length-1]) if bsc_amount?
-          bsc_prob = card.desc.match(/BSC:(.|\n)*- (\d*)%/)
-          bsc_prob = parseFloat(bsc_prob[bsc_prob.length-1]) if bsc_prob?
-          attributes = {card_id: card.id, name: card.name, desc: card.desc, bsc_amount: bsc_amount, bsc_prob: bsc_prob}
-          if (old_card = TrelloCard.where({card_id: card.id})[0]) != undefined
-            console.log(old_card.update attributes)
+          if (old_card = TrelloCard.where(_id: card.id)[0]) != undefined
+            console.log(old_card.update card)
           else
-            console.log(TrelloCard.create attributes)
+            console.log(TrelloCard.create card)
 
-  # TODO: Make faster
-  @importMoves: ->
-    Meteor.call 'getTrelloCardMoves', (e,moves) =>
-      for i,card of TrelloCard.all()
-        card_moves = []
-        card.attributes.timeline = undefined
-        for j, move of moves
-          if move.data.card.id == card.card_id
-            card_moves.push move
 
-        card.insert {moves: card_moves}
-        console.log(card.save())
+if Meteor.isServer
+  Meteor.methods getTrelloCards: ->
+    result = undefined
+    @unblock()
+    result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/cards",
+      params:
+        key: "b21235703575c2c2844154615e41c3d4"
+        token: _TRELLO_TOKEN
+        limit: 500
+        filter: 'all'
+    )
+    if result.statusCode is 200
+      return result.data
 
-  timeline: (update) ->
-    if @attributes.timeline != undefined && update != true
-      return @attributes.timeline
-    else
-      if @attributes.moves
-        card_moves = []
-        if @attributes.moves.length > 1
-          for i in [0..@attributes.moves.length-2]
-            console.log( @attributes.moves[i])
-            card_moves.push {date: @attributes.moves[i].date, move_id: @attributes.moves[i].id ,x1: @attributes.moves[i].data.listBefore.id , x2: @attributes.moves[i].data.listAfter.id, dT: (new Date(@attributes.moves[i].date) - new Date(@attributes.moves[i+1].date))/1000/3600}
-          @insert {timeline: card_moves}
-          @save()
-          return card_moves
     false
 
-  @moves: ->
-    # TrelloCard.where({timeline })
-    moves_arr = []
-    for i,card of TrelloCard.all()
-      if card.timeline() != false
-        moves_arr.push card.timeline()
-    return moves_arr
+  Meteor.methods getTrelloCardMoves: ->
+    result = undefined
+    @unblock()
+    result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
+      params:
+        key: "b21235703575c2c2844154615e41c3d4"
+        token: _TRELLO_TOKEN
+        filter: "updateCard,createCard"
+        limit: 500
+    )
+    if result.statusCode is 200
+      # return result
+      moves = []
+      for i, action of result.data
+        do (action) ->
+          if ((action.data.listBefore != undefined && action.type == "updateCard") || action.type == "createCard" || (action.type == "updateCard" && action.data.card.closed == true && action.data.old.closed == false))
+            moves.push action
+      return moves

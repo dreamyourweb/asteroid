@@ -6,9 +6,9 @@ class Minimongoid
 
   constructor: (attributes = {}) ->
     if attributes._id
-      @attributes = @demongoize(attributes)
+      @attributes = attributes
       @id = attributes._id
-    else
+    else    
       @attributes = attributes
 
     for field, opts of @constructor.fields
@@ -59,7 +59,7 @@ class Minimongoid
   # this method will not be called and hence any assignment will not be reflected
   # in the attributes.
   makeProperty: (field) ->
-    if this[field] == undefined
+    if this[field] == undefined && field != "id"
       Object.defineProperty this, field,
               get: -> @get field
               set: (value) ->
@@ -69,13 +69,14 @@ class Minimongoid
     return false unless @isValid()
     @_saved_attributes = clone(@attributes)
     
-    attributes = @mongoize(@attributes)
+    attributes = @attributes
     attributes['_type'] = @constructor._type if @constructor._type?
-    
+   
     if @isPersisted()
-      @constructor._collection.update @id, { $set: attributes }
+      @constructor._collection.update @id, { $set: @mongoize(attributes) }
         # @constructor._collection.insert attributes
-    else
+    else if attributes.id?
+      attributes._id = attributes.id
       @id = @constructor._collection.insert attributes
     
     this
