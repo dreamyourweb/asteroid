@@ -5,7 +5,7 @@ class FlowTime extends Minimongoid
 
     card_form_34_to_5 = $.unique(card_form_34_to_5)
 
-    last_34 = for i, card of TrelloCard.where({_id: {$in: card_form_34_to_5}}, {sort: {id:1}})
+    last_34 = for i, card of TrelloCard.where({_id: {$in: card_form_34_to_5}}, {sort: {id: -1}})
       move = TrelloCardMove.where({'data.card.id': card.id, 'data.listAfter.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}}, {sort: {date: -1}, limit: 1})[0]
       if move == undefined
         move = TrelloCardMove.where({'type': 'createCard', 'data.list.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}}, {sort: {date: -1}, limit: 1})[0]
