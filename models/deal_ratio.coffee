@@ -1,5 +1,5 @@
-class FlowPoint extends Minimongoid
-  @bakePoints: (dateRange) ->
+class DealRatio extends Minimongoid
+  @bakeCurrentRatio: (dateRange) ->
 
     deals = for i, move of TrelloCardMove.where({ 'data.listBefore.id': TrelloCard.list_ids[3], 'data.listAfter.id': TrelloCard.list_ids[4]})
       move.data.card.id

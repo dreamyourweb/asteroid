@@ -24,6 +24,10 @@ class TrelloCard extends Minimongoid
           else
             console.log(TrelloCard.create card)
 
+  getCash: ->
+    cash_regex = @attributes.desc.match(/BSC:(.|\n)*- (\d*)€/)
+    parseFloat(cash_regex[cash_regex.length-1]) if cash_regex?
+
 
 if Meteor.isServer
   Meteor.methods getTrelloCards: ->
