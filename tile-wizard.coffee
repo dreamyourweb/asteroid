@@ -53,6 +53,10 @@ if Meteor.isClient
       if button.data('addtile') != ""
         if button.data('addtile') == "toggl1"
           addTiles("Toggl")
+
+          $("#tile-wizard").hide(400)
+          Session.set("screenChoices", undefined)
+          
       else
         Session.set("screenChoices", [button.data('index')])
 
@@ -65,6 +69,20 @@ if Meteor.isClient
         type = "Text"
         tiletext = $('#tiletext').val()
         addTiles(type, tiletext)
+
+      $("#tile-wizard").hide(400)
+      Session.set("screenChoices", undefined)
+  )
+
+  Template.tile_wizard.events(
+    'click #close-wizard' : ->
+      $("#tile-wizard").hide(400)
+      Session.set("screenChoices", undefined)
+  )
+
+  Template.wizard_toggle.events(
+    'click #show-wizard' : ->
+      $("#tile-wizard").show(400)
   )
 
 addTiles = (type, text)->

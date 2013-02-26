@@ -5,10 +5,12 @@ body
   {{renderPage}}
 
 template(name="page_home")
-  h1 Asteroid
-  {{> toolbar}}
-  {{> tile-wizard}}
-  {{> gridster}}
+  {{> wizard_toggle}}
+  {{> tile_wizard}}
+  .row
+    .twelve.columns
+      h1 Asteroid
+      {{> gridster}}
 
 template(name="page_test")
   .row
@@ -18,64 +20,60 @@ template(name="page_test")
 
 template(name="toolbar")
 
-  .row
-    .twelve.colums
-      form.custom
-        .row
-          .two.columns
-            select#selectX(style="display:none;")
-              option 1
-              option 2
-              option 3
-            .custom.dropdown
-              a.current(href="#") 1
-              a.selector(href="#")
-              ul
-                li 1
-                li 2
-                li 3
+  form.custom
+    .row
+      .two.columns
+        select#selectX(style="display:none;")
+          option 1
+          option 2
+          option 3
+        .custom.dropdown
+          a.current(href="#") 1
+          a.selector(href="#")
+          ul
+            li 1
+            li 2
+            li 3
 
-          .two.columns
-            select#selectY(style="display:none;")
-              option 1
-              option 2
-              option 3
-            .custom.dropdown
-              a.current(href="#") 1
-              a.selector(href="#")
-              ul
-                li 1
-                li 2
-                li 3
+      .two.columns
+        select#selectY(style="display:none;")
+          option 1
+          option 2
+          option 3
+        .custom.dropdown
+          a.current(href="#") 1
+          a.selector(href="#")
+          ul
+            li 1
+            li 2
+            li 3
 
-          .two.columns
-            input(type="text", id="tileText")
+      .two.columns
+        input(type="text", id="tileText")
 
-          .four.columns
-            select#selectType(style="display:none;")
-              option Toggl
-              option Text
-              option None
-            .custom.dropdown
-              a.current(href="#") Toggl
-              a.selector(href="#")
-              ul
-                li Toggl
-                li Text
-                li None
+      .four.columns
+        select#selectType(style="display:none;")
+          option Toggl
+          option Text
+          option None
+        .custom.dropdown
+          a.current(href="#") Toggl
+          a.selector(href="#")
+          ul
+            li Toggl
+            li Text
+            li None
 
-          .two.columns
-            input(type="button", class="button small", value="Add", id="addTile")
-            input(type="button", class="button small", value="Clear", id="clearAllTiles")
+      .two.columns
+        input(type="button", class="button small", value="Add", id="addTile")
+        input(type="button", class="button small", value="Clear", id="clearAllTiles")
 
 template(name="gridster")
-  .row
-    .twelve.columns
-      .gridster
-        ul
-          {{#each tiles}}
-            {{> tile}}
-          {{/each}}
+    .gridster
+      ul
+        {{#each tiles}}
+          {{> tile}}
+        {{/each}}
 
 template(name="tile")
   li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")

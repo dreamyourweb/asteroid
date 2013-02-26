@@ -10,6 +10,8 @@
     },
     "router": {},
     "mocha-web": {},
-    "jade-handlebars": {}
+    "jade-handlebars": {},
+    "foundation-icons": {},
+    "jquery-ui": {}
   }
 }

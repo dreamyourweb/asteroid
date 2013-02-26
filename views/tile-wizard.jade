@@ -1,7 +1,3 @@
-template(name="tile-wizard")
-  #tile-wizard
-    {{>tw_screen}}
-  
 template(name="tw_screen")
   h3 {{screen.title}}
   input(type="button", class="button", value="Clear", id="clear-button")
@@ -24,3 +20,14 @@ template(name="tw_screen")
   {{#if screen.submit}}
     input(type="button", class="button", value="{{screen.submit.value}}", id="addTile", "data-id"="{{screen.id}}")
   {{/if}}
+
+template(name="tile_wizard")
+  #tile-wizard
+    a(href="", id="close-wizard") &times
+    {{>tw_screen}}
+
+template(name="wizard_toggle")
+  #wizard-toggle
+    a(href="", id="show-wizard") +
+
+
