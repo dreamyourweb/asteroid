@@ -2,8 +2,17 @@ head
   title asteroid
 
 body
+  {{renderPage}}
+
+template(name="page_home")
   {{> toolbar}}
   {{> gridster}}
+
+template(name="page_test")
+  .row
+    .twelve.columns
+      h1 Tests
+      {{> mochaTestReport}}
 
 template(name="toolbar")
 

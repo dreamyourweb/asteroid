@@ -9,6 +9,11 @@ updateTiles = ->
 
 if Meteor.isClient
 
+  Meteor.Router.add
+    '/': 'page_home'
+    '/test': 'page_test'
+
+
   Template.gridster.tiles = ->
     LiveTiles.find().fetch()
 

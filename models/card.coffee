@@ -28,38 +28,42 @@ class TrelloCard extends Minimongoid
     cash_regex = @attributes.desc.match(/BSC:(.|\n)*- (\d*)€/)
     parseFloat(cash_regex[cash_regex.length-1]) if cash_regex?
 
+  getDealProbability: ->
+    prob_regex = @attributes.desc.match(/BSC:(.|\n)*- (\d*)%/)
+    parseFloat(prob_regex[prob_regex.length-1])/100 if prob_regex?
 
 if Meteor.isServer
-  Meteor.methods getTrelloCards: ->
-    result = undefined
-    @unblock()
-    result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/cards",
-      params:
-        key: "b21235703575c2c2844154615e41c3d4"
-        token: _TRELLO_TOKEN
-        limit: 500
-        filter: 'all'
-    )
-    if result.statusCode is 200
-      return result.data
+  Meteor.methods 
+    getTrelloCards: ->
+      result = undefined
+      @unblock()
+      result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/cards",
+        params:
+          key: "b21235703575c2c2844154615e41c3d4"
+          token: _TRELLO_TOKEN
+          limit: 500
+          filter: 'all'
+      )
+      if result.statusCode is 200
+        return result.data
 
-    false
+      false
 
-  Meteor.methods getTrelloCardMoves: ->
-    result = undefined
-    @unblock()
-    result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
-      params:
-        key: "b21235703575c2c2844154615e41c3d4"
-        token: _TRELLO_TOKEN
-        filter: "updateCard,createCard"
-        limit: 500
-    )
-    if result.statusCode is 200
-      # return result
-      moves = []
-      for i, action of result.data
-        do (action) ->
-          if ((action.data.listBefore != undefined && action.type == "updateCard") || action.type == "createCard" || (action.type == "updateCard" && action.data.card.closed == true && action.data.old.closed == false))
-            moves.push action
-      return moves
+    getTrelloCardMoves: ->
+      result = undefined
+      @unblock()
+      result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
+        params:
+          key: "b21235703575c2c2844154615e41c3d4"
+          token: _TRELLO_TOKEN
+          filter: "updateCard,createCard"
+          limit: 500
+      )
+      if result.statusCode is 200
+        # return result
+        moves = []
+        for i, action of result.data
+          do (action) ->
+            if ((action.data.listBefore != undefined && action.type == "updateCard") || action.type == "createCard" || (action.type == "updateCard" && action.data.card.closed == true && action.data.old.closed == false))
+              moves.push action
+        return moves

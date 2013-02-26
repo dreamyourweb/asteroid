@@ -1,14 +1,16 @@
 {
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
-    "branch": "master"
+    "branch": "devel"
   },
   "packages": {
     "stylus-mixin": {},
-    "jade-handlebars": {},
     "minimongoid": {
       "path": "/minimongoid/"
     },
-    "ZURB Foundation":{}
+    "ZURB Foundation": {},
+    "router": {},
+    "mocha-web": {},
+    "jade-handlebars": {}
   }
 }
