@@ -1,0 +1,26 @@
+template(name="tile-wizard")
+  #tile-wizard
+    {{>tw_screen}}
+  
+template(name="tw_screen")
+  h3 {{screen.title}}
+  input(type="button", class="button", value="Clear", id="clear-button")
+  {{#if screen.tiles}}
+
+    {{#each screen.tiles}}
+      input(type="button", class="button", value="{{title}}", "data-wizard-id"="{{id}}", "data-index"="{{index}}")
+    {{/each}}
+
+  {{/if}}
+
+  {{#if screen.inputs}}
+    {{#each screen.inputs}}
+      {{#if equals type "text"}}
+        input(type="{{text}}", placeholder="{{default}}" ,"data-id"="{{id}}")
+      {{/if}}
+    {{/each}}
+  {{/if}}
+
+  {{#if screen.submit}}
+    input(type="button", class="button", value="{{screen.submit.value}}", id="addTile", "data-id"="{{screen.id}}")
+  {{/if}}
