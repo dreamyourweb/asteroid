@@ -45,10 +45,11 @@ if Meteor.isClient
   Template.gridster.events(
     'click .remove-tile' : (e)->
       gridster = $(".gridster ul").gridster().data('gridster')
+      tile_id = $(e.currentTarget).parent()[0].id
       gridster.remove_widget($(e.currentTarget).parent())
       Meteor.setTimeout ->
         updateTiles
-        LiveTiles.remove $(e.currentTarget).parent()[0].id
+        LiveTiles.remove tile_id
         , 500
       false
     )

@@ -4,7 +4,7 @@ template(name="tw_screen")
   {{#if screen.tiles}}
 
     {{#each screen.tiles}}
-      input(type="button", class="button tilebutton", value="{{title}}", "data-wizard-id"="{{id}}", "data-index"="{{index}}", "data-addtile"="{{addtile}}")
+      input(type="button", class="button tilebutton", value="{{title}}", "data-wizard-id"="{{id}}", "data-index"="{{index}}")
     {{/each}}
 
   {{/if}}
@@ -17,8 +17,8 @@ template(name="tw_screen")
     {{/each}}
   {{/if}}
 
-  {{#if screen.submit}}
-    input(type="button", class="button", value="{{screen.submit.value}}", id="addTile", "data-id"="{{screen.id}}")
+  {{#if screen.addtile}}
+    input(type="button", class="button", value="Add Tile", id="addTile", "data-addtile"="{{screen.addtile}}")
   {{/if}}
 
 template(name="tile_wizard")

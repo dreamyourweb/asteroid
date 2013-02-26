@@ -25,9 +25,7 @@ if Meteor.isClient
                       - type: "text"
                         default: "Tile text"
                         id: "tiletext"
-                    submit:
-                      type: "button"
-                      value: "Add text tile"
+                    addtile: "text"
                 """
 
   wizardscreens = YAML.parse(wizardyaml)
@@ -50,25 +48,15 @@ if Meteor.isClient
   Template.tw_screen.events(
     'click .tilebutton' : (e) ->
       button = $(e.currentTarget)
-      if button.data('addtile') != ""
-        if button.data('addtile') == "toggl1"
-          addTiles("Toggl")
-
-          $("#tile-wizard").hide(400)
-          Session.set("screenChoices", undefined)
-          
-      else
-        Session.set("screenChoices", [button.data('index')])
+      Session.set("screenChoices", [button.data('index')])
 
     'click #clear-button' : ->
       Session.set("screenChoices", undefined)
 
     'click #addTile' : (e) ->
       button = $(e.currentTarget)
-      if button.data('id') == "text"
-        type = "Text"
-        tiletext = $('#tiletext').val()
-        addTiles(type, tiletext)
+      if button.data('addtile') == "text"
+        addTiles "Text", $('#tiletext').val()
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)
