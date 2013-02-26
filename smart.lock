@@ -10,7 +10,6 @@
       "minimongoid": {
         "path": "/minimongoid/"
       },
-      "ZURB Foundation": {},
       "router": {},
       "mocha-web": {},
       "jade-handlebars": {}
@@ -23,11 +22,6 @@
       },
       "minimongoid": {
         "path": "/minimongoid/"
-      },
-      "ZURB Foundation": {
-        "git": "https://github.com/IslamMagdy/meteor-foundation.git",
-        "tag": "v3.2.0",
-        "commit": "a27c84be95dc73f8b6c71a98e6c9bbe6736992f2"
       },
       "router": {
         "git": "https://github.com/tmeasday/meteor-router.git",

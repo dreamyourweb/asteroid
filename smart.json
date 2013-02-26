@@ -8,7 +8,6 @@
     "minimongoid": {
       "path": "/minimongoid/"
     },
-    "ZURB Foundation": {},
     "router": {},
     "mocha-web": {},
     "jade-handlebars": {}

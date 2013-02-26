@@ -20,6 +20,8 @@ if Meteor.isClient
   Template.tile.metric = ->
     if this.type == "Toggl"
       "#{(TimeEntries.lastMonthTotal()/3600).toFixed(2)} uur"
+    else if this.type == "Text"
+      "#{this.text}"
     else
       "#{this.row},#{this.col}"
 
