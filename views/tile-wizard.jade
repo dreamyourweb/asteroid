@@ -1,4 +1,6 @@
 template(name="tw_screen")
+  h3
+    a(href="", id="back-wizard") <
   h3 {{screen.title}}
   input(type="button", class="button", value="Clear", id="clear-button")
   {{#if screen.tiles}}
@@ -9,17 +11,29 @@ template(name="tw_screen")
 
   {{/if}}
 
-  {{#if screen.inputs}}
-    {{#each screen.inputs}}
-      {{#if equals type "text"}}
-        input(type="{{text}}", placeholder="{{default}}", id="{{id}}")
-      {{/if}}
-    {{/each}}
-  {{/if}}
+  form
 
-  {{#if screen.addtile}}
-    input(type="button", class="button", value="Add Tile", id="addTile", "data-addtile"="{{screen.addtile}}")
-  {{/if}}
+    {{#if screen.inputs}}
+      {{#each screen.inputs}}
+
+        {{#if label}}
+          label {{label}}
+        {{/if}}
+
+        {{#if equals type "text"}}
+          input(type="text", placeholder="{{placeholder}}", id="{{id}}")
+        {{/if}}
+
+        {{#if equals type "date"}}
+          input(type="text", id="{{id}}", class="datepicker")
+        {{/if}}
+
+      {{/each}}
+    {{/if}}
+
+    {{#if screen.addtile}}
+      input(type="button", class="button", value="Add Tile", id="addTile", "data-addtile"="{{screen.addtile}}")
+    {{/if}}
 
 template(name="tile_wizard")
   #tile-wizard

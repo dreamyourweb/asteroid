@@ -10,6 +10,13 @@ if Meteor.isClient
                       - title: "Toggl Metric 1"
                         index: 0
                         id: "toggl1"
+                        inputs:
+                          - type: "date"
+                            id: begindate
+                            label: "Begin date"
+                          - type: "date"
+                            id: enddate
+                            label: "End date"
                         addtile: "toggl1"
                       - title: "Toggl Metric 2"
                   - title: "Trello"
@@ -25,7 +32,8 @@ if Meteor.isClient
                     id: "text"
                     inputs:
                       - type: "text"
-                        default: "Tile text"
+                        placeholder: "Enter your tile text"
+                        label: "Tile text"
                         id: "tiletext"
                     addtile: "text"
                 """
@@ -54,11 +62,10 @@ if Meteor.isClient
         oldScreenChoices = Session.get("screenChoices")
       else
         oldScreenChoices = []
-      console.log Session.get("screenChoices")
-      console.log oldScreenChoices
-      console.log button.data('index')
-      oldScreenChoices.push(button.data('index'))
-      Session.set("screenChoices", oldScreenChoices)
+
+      if button.data('index') != ""
+        oldScreenChoices.push(button.data('index'))
+        Session.set("screenChoices", oldScreenChoices)
 
     'click #clear-button' : ->
       Session.set("screenChoices", undefined)
@@ -74,7 +81,15 @@ if Meteor.isClient
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)
+
+    'click #back-wizard' : ->
+      screenChoices = Session.get("screenChoices")
+      screenChoices.pop()
+      Session.set("screenChoices", screenChoices)
   )
+
+  Template.tw_screen.rendered = ->
+    $( ".datepicker" ).datepicker();
 
   Template.tile_wizard.events(
     'click #close-wizard' : ->
