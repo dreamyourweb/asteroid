@@ -8,6 +8,8 @@ if Meteor.isClient
                     id: "toggl"
                     tiles:
                       - title: "Toggl Metric 1"
+                        index: 0
+                        id: "toggl1"
                         addtile: "toggl1"
                       - title: "Toggl Metric 2"
                   - title: "Trello"
@@ -48,15 +50,27 @@ if Meteor.isClient
   Template.tw_screen.events(
     'click .tilebutton' : (e) ->
       button = $(e.currentTarget)
-      Session.set("screenChoices", [button.data('index')])
+      if Session.get("screenChoices")?
+        oldScreenChoices = Session.get("screenChoices")
+      else
+        oldScreenChoices = []
+      console.log Session.get("screenChoices")
+      console.log oldScreenChoices
+      console.log button.data('index')
+      oldScreenChoices.push(button.data('index'))
+      Session.set("screenChoices", oldScreenChoices)
 
     'click #clear-button' : ->
       Session.set("screenChoices", undefined)
 
     'click #addTile' : (e) ->
       button = $(e.currentTarget)
-      if button.data('addtile') == "text"
-        addTiles "Text", $('#tiletext').val()
+      tiletype = button.data('addtile')
+      switch tiletype
+        when "text"
+          addTile "Text", $('#tiletext').val()
+        when "toggl1"
+          addTile "Toggl"
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)
@@ -73,7 +87,7 @@ if Meteor.isClient
       $("#tile-wizard").show(400)
   )
 
-addTiles = (type, text)->
+addTile = (type, text)->
   gridster = $(".gridster ul").gridster().data('gridster')
   tile = gridster.add_widget("<li id='newTile' class='metro-tile'><h2>"+text+"</h2></li>",2,1,1,1)
   tile = gridster.serialize(tile)[0]
