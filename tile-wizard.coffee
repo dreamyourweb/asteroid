@@ -8,12 +8,14 @@ if Meteor.isClient
                     id: "toggl"
                     tiles:
                       - title: "Toggl Metric 1"
+                        addtile: "toggl1"
                       - title: "Toggl Metric 2"
                   - title: "Trello"
                     index: 1
                     id: "trello"
                     tiles:
                       - title: "Trello Metric 1"
+                        addtile: "trello1"
                       - title: "Trello Metric 2"
                       - title: "Trello Metric 3"
                   - title: "Text"
@@ -46,9 +48,13 @@ if Meteor.isClient
     l == r
 
   Template.tw_screen.events(
-    'click .button' : (e) ->
+    'click .tilebutton' : (e) ->
       button = $(e.currentTarget)
-      Session.set("screenChoices", [button.data('index')])
+      if button.data('addtile') != ""
+        if button.data('addtile') == "toggl1"
+          addTiles("Toggl")
+      else
+        Session.set("screenChoices", [button.data('index')])
 
     'click #clear-button' : ->
       Session.set("screenChoices", undefined)
@@ -58,12 +64,14 @@ if Meteor.isClient
       if button.data('id') == "text"
         type = "Text"
         tiletext = $('#tiletext').val()
-
-        gridster = $(".gridster ul").gridster().data('gridster')
-        tile = gridster.add_widget("<li id='newTile' class='metro-tile'><h2>"+tiletext+"</h2></li>",2,1,1,1)
-        tile = gridster.serialize(tile)[0]
-        Meteor.setTimeout ->
-          updateTiles()
-          LiveTiles.insert {col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: tiletext, type: type}
-          ,500
+        addTiles(type, tiletext)
   )
+
+addTiles = (type, text)->
+  gridster = $(".gridster ul").gridster().data('gridster')
+  tile = gridster.add_widget("<li id='newTile' class='metro-tile'><h2>"+text+"</h2></li>",2,1,1,1)
+  tile = gridster.serialize(tile)[0]
+  Meteor.setTimeout ->
+    updateTiles()
+    LiveTiles.insert {col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: text, type: type}
+    ,500

@@ -86,7 +86,7 @@ if Meteor.isServer
     TrelloCardMove._collection.find({})
 
   Meteor.startup ->
-    Meteor.call 'getTogglTimeEntries', (e, result) ->
+    # Meteor.call 'getTogglTimeEntries', (e, result) ->
       # TimeEntries.remove({})
       # TimeEntries.insertFromJSON(JSON.parse(result.content))
       
