@@ -62,7 +62,7 @@ if Meteor.isClient
         gridster = $(".gridster ul").gridster().data('gridster')
         tile = gridster.add_widget("<li id='newTile' class='metro-tile'><h2>"+tiletext+"</h2></li>",2,1,1,1)
         tile = gridster.serialize(tile)[0]
-        Meteor.setTimeout (tiletext) ->
+        Meteor.setTimeout ->
           updateTiles()
           LiveTiles.insert {col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: tiletext, type: type}
           ,500

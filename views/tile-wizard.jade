@@ -16,7 +16,7 @@ template(name="tw_screen")
   {{#if screen.inputs}}
     {{#each screen.inputs}}
       {{#if equals type "text"}}
-        input(type="{{text}}", placeholder="{{default}}" ,"data-id"="{{id}}")
+        input(type="{{text}}", placeholder="{{default}}", id="{{id}}")
       {{/if}}
     {{/each}}
   {{/if}}
