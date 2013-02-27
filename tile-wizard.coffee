@@ -10,7 +10,36 @@ if Meteor.isClient
                       - title: "Perc Deals gesloten"
                         index: 0
                         id: "sales1"
+                        inputs:
+                          - type: "date"
+                            id: begindate
+                            label: "Begin date"
+                          - type: "date"
+                            id: enddate
+                            label: "End date"
                         addtile: "dealratio"
+                      - title: "Cycle Time"
+                        index: 1
+                        id: "sales2"
+                        inputs:
+                          - type: "date"
+                            id: begindate
+                            label: "Begin date"
+                          - type: "date"
+                            id: enddate
+                            label: "End date"
+                        addtile: "flowtime"
+                      - title: "Deal Cash"
+                        index: 2
+                        id: "sales3"
+                        inputs:
+                          - type: "date"
+                            id: begindate
+                            label: "Begin date"
+                          - type: "date"
+                            id: enddate
+                            label: "End date"
+                        addtile: "dealcash"
                   - title: "Operations"
                     index: 1
                     id: "operations"
@@ -80,9 +109,13 @@ if Meteor.isClient
         when "text"
           addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val()}
         when "toggl1"
-          addTile "Toggl", {color: $(".colorpicker").val()}
+          addTile "Toggl", {color: $(".colorpicker").val(), title: "hours worked"}
         when "dealratio"
-          addTile "DealRatio", {color: $(".colorpicker").val()}
+          addTile "DealRatio", {timespan: 12, color: $(".colorpicker").val(), title: "dealratio"}
+        when "flowtime"
+          addTile "FlowTime", {color: $(".colorpicker").val(), title: "Cycle Time"}
+        when "dealcash"
+          addTile "DealCash", {color: $(".colorpicker").val(), title: "Deal Cash"}
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)
@@ -122,5 +155,5 @@ addTile = (type, options)->
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->
     updateTiles()
-    LiveTiles.insert {col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color}
+    LiveTiles.insert {title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color}
     ,500

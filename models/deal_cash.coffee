@@ -19,7 +19,7 @@ class DealCash extends Minimongoid
 
     deals = for i, move of TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'data.listAfter.id': TrelloCard.list_ids[4]})
       move.data.card.id
-    deal_card_ids = $.unique(deals)
+    deal_card_ids = _.uniq(deals)
 
     if options.users?
       deals_cash = for i, card of TrelloCard.where({idMembers: {$in: options.users}, _id: {$in: deal_card_ids}})
