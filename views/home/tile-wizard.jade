@@ -28,6 +28,9 @@ template(name="tw_screen")
           input(type="text", id="{{id}}", class="datepicker")
         {{/if}}
 
+        {{#if equals type "timespan"}}
+          input(type="text", placeholder="nr of days", id="{{id}}")
+        {{/if}}
       {{/each}}
     {{/if}}
 

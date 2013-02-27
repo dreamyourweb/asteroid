@@ -11,22 +11,19 @@ if Meteor.isClient
                         index: 0
                         id: "sales1"
                         inputs:
-                          - type: "date"
-                            id: begindate
-                            label: "Begin date"
-                          - type: "date"
-                            id: enddate
-                            label: "End date"
+                          - type: "timespan"
+                            id: "timespan"
+                            label: "time span"
                         addtile: "dealratio"
                       - title: "Cycle Time"
                         index: 1
                         id: "sales2"
                         inputs:
                           - type: "date"
-                            id: begindate
+                            id: "begindate"
                             label: "Begin date"
                           - type: "date"
-                            id: enddate
+                            id: "enddate"
                             label: "End date"
                         addtile: "flowtime"
                       - title: "Deal Cash"
@@ -111,7 +108,7 @@ if Meteor.isClient
         when "toggl1"
           addTile "Toggl", {color: $(".colorpicker").val(), title: "hours worked"}
         when "dealratio"
-          addTile "DealRatio", {timespan: 12, color: $(".colorpicker").val(), title: "dealratio"}
+          addTile "DealRatio", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "dealratio"}
         when "flowtime"
           addTile "FlowTime", {color: $(".colorpicker").val(), title: "Cycle Time"}
         when "dealcash"
@@ -155,5 +152,5 @@ addTile = (type, options)->
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->
     updateTiles()
-    LiveTiles.insert {title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color}
+    LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color}
     ,500
