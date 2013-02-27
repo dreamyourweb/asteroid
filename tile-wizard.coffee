@@ -3,7 +3,7 @@ if Meteor.isClient
                 title:  "Services"
                 id: "services"
                 tiles:
-                  - title: "Toggl"
+                  - title: "Aquisitite"
                     index: 0
                     id: "toggl"
                     tiles:
