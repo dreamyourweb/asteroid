@@ -23,7 +23,7 @@ if Meteor.isClient
     else if this.type == "Text"
       "#{this.text}"
     else if this.type == "DealRatio"
-      "#{DealRatio.bakeCurrentRatio().toFixed(2)} %"
+      "#{DealRatio.bakeCurrentRatio({timespan: this.timespan}).toFixed(2)} %"
     else if this.type == "FlowTime"
       "#{(FlowTime.bakeTimes()/3600/24).toFixed(0)} dagen"
     else if this.type == "DealCash"
