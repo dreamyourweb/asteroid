@@ -2,7 +2,7 @@
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
     "branch": "devel",
-    "commit": "df5606363269928f1167114982e48fe74098190e"
+    "commit": "dd59b98475508cb8b31251327dc05d222b55b6f6"
   },
   "dependencies": {
     "basePackages": {
@@ -14,7 +14,9 @@
       "mocha-web": {},
       "jade-handlebars": {},
       "foundation-icons": {},
-      "jquery-ui": {}
+      "jquery-ui": {},
+      "foundation-custom": {},
+      "yaml": {}
     },
     "packages": {
       "stylus-mixin": {
@@ -27,8 +29,8 @@
       },
       "router": {
         "git": "https://github.com/tmeasday/meteor-router.git",
-        "tag": "v0.4.0",
-        "commit": "c99ccbc30a4692635a67a585a6ce4eed252aa268"
+        "tag": "v0.4.2",
+        "commit": "82d2895847502b4025370523dba60d597cff4772"
       },
       "mocha-web": {
         "git": "https://github.com/mad-eye/meteor-mocha-web.git",
@@ -49,6 +51,16 @@
         "git": "https://github.com/TimHeckel/meteor-jquery-ui.git",
         "tag": "v1.8.16",
         "commit": "abda12134b8f3c5db31d6a4864bead6aa3640358"
+      },
+      "foundation-custom": {
+        "git": "https://github.com/digioak/meteor-foundation-custom.git",
+        "tag": "v0.0.7",
+        "commit": "78a2f2def62709836c58dcca894ea6f3702d940c"
+      },
+      "yaml": {
+        "git": "https://github.com/jamesknelson/meteor-yaml.git",
+        "tag": "v0.1.3",
+        "commit": "d51f543dc1e900ffe1bda7e0a5e591eae5c0a9da"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

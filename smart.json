@@ -12,6 +12,8 @@
     "mocha-web": {},
     "jade-handlebars": {},
     "foundation-icons": {},
-    "jquery-ui": {}
+    "jquery-ui": {},
+    "foundation-custom": {},
+    "yaml": {}
   }
 }
