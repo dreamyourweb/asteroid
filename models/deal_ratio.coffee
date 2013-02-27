@@ -6,7 +6,7 @@ class DealRatio extends Minimongoid
       options.startdate.setDate(options.startdate.getDate() - 90)
     if options.enddate == undefined then options.enddate = new Date
     if options.enddate > new Date then options.enddate = new Date
-    if options.timespan?
+    if options.timespan? && timespan != ""
       options.startdate = new Date
       options.enddate = new Date
       options.startdate.setDate(options.startdate.getDate() - options.timespan)

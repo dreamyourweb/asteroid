@@ -37,6 +37,7 @@ template(name="tw_screen")
     {{#if screen.addtile}}
       label Tile color
       input(type="text", class="colorpicker")
+      div(style="clear:both")
       input(type="button", class="button", value="Add Tile", id="addTile", "data-addtile"="{{screen.addtile}}")
     {{/if}}
 
