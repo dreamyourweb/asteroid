@@ -9,7 +9,6 @@ class FlowTime extends Minimongoid
     if typeof options.users == "string"
       options.users = [options.users]
 
-
     # USE ISO DATES
     startdate = options.startdate.toISOString()
     enddate = options.enddate.toISOString()
