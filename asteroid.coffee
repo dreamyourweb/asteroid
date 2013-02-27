@@ -53,7 +53,6 @@ if Meteor.isClient
         stop: ->
           updateTiles()
       )
-
     )
 
   Meteor.autosubscribe ->

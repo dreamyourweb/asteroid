@@ -4,7 +4,8 @@ template(name="tw_screen")
   .row
     .twelve.columns
       h3
-        a(href="", id="back-wizard") <
+        a(href="", id="back-wizard")
+          i.general.foundicon-left-arrow
       h3 {{screen.title}}
       {{#if screen.tiles}}
 
@@ -52,10 +53,13 @@ template(name="tw_screen")
 
 template(name="tile_wizard")
   #tile-wizard.panel
-    a(href="", id="close-wizard") &times
+    a(href="", id="close-wizard")
+      i.general.foundicon-remove
     {{>tw_screen}}
 
 template(name="wizard_toggle")
   #wizard-toggle
-    a(href="", id="show-wizard") +
+    a(href="", id="show-wizard")
+      i.general.foundicon-plus
+
 
