@@ -104,15 +104,15 @@ if Meteor.isClient
       tiletype = button.data('addtile')
       switch tiletype
         when "text"
-          addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val()}
+          addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val(), size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
         when "toggl1"
           addTile "Toggl", {color: $(".colorpicker").val(), title: "hours worked"}
         when "dealratio"
-          addTile "DealRatio", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "dealratio"}
+          addTile "DealRatio", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "dealratio", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
         when "flowtime"
-          addTile "FlowTime", {color: $(".colorpicker").val(), title: "Cycle Time"}
+          addTile "FlowTime", {color: $(".colorpicker").val(), title: "Cycle Time", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
         when "dealcash"
-          addTile "DealCash", {color: $(".colorpicker").val(), title: "Deal Cash"}
+          addTile "DealCash", {color: $(".colorpicker").val(), title: "Deal Cash", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)
@@ -148,7 +148,9 @@ addTile = (type, options)->
   if !options.color? || options.color == ""
     options.color = "green"
 
-  tile = gridster.add_widget("<li id='newTile' style='background: #{options.color}' class='metro-tile'><h2>"+options.text+"</h2></li>",2,1,1,1)
+  console.log options
+
+  tile = gridster.add_widget("<li id='newTile' style='background: #{options.color}' class='metro-tile'><h2>"+options.text+"</h2></li>",options.size_x,options.size_y,1,1)
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->
     updateTiles()

@@ -1,48 +1,57 @@
 template(name="tw_screen")
-  h3
-    a(href="", id="back-wizard") <
-  h3 {{screen.title}}
+
   input(type="button", class="button", value="Clear", id="clear-button")
-  {{#if screen.tiles}}
+  .row
+    .twelve.columns
+      h3
+        a(href="", id="back-wizard") <
+      h3 {{screen.title}}
+      {{#if screen.tiles}}
 
-    {{#each screen.tiles}}
-      input(type="button", class="button tilebutton", value="{{title}}", "data-wizard-id"="{{id}}", "data-index"="{{index}}")
-    {{/each}}
+        {{#each screen.tiles}}
+          input(type="button", class="button tilebutton", value="{{title}}", "data-wizard-id"="{{id}}", "data-index"="{{index}}")
+        {{/each}}
 
-  {{/if}}
+      {{/if}}
 
-  form
+      form
 
-    {{#if screen.inputs}}
-      {{#each screen.inputs}}
+        {{#if screen.inputs}}
+          {{#each screen.inputs}}
 
-        {{#if label}}
-          label {{label}}
+            {{#if label}}
+              label {{label}}
+            {{/if}}
+
+            {{#if equals type "text"}}
+              input(type="text", placeholder="{{placeholder}}", id="{{id}}")
+            {{/if}}
+
+            {{#if equals type "date"}}
+              input(type="text", id="{{id}}", class="datepicker")
+            {{/if}}
+
+            {{#if equals type "timespan"}}
+              input(type="text", placeholder="nr of days", id="{{id}}")
+            {{/if}}
+          {{/each}}
         {{/if}}
 
-        {{#if equals type "text"}}
-          input(type="text", placeholder="{{placeholder}}", id="{{id}}")
+        {{#if screen.addtile}}
+          label Tile dimensions
+          .row
+            .six.columns
+              input#tilesizex(type="text", value="2")
+            .six.columns
+              input#tilesizey(type="text", value="1")
+          label Tile color
+          input(type="text", class="colorpicker")
+          div(style="clear:both")
+          input(type="button", class="button", value="Add Tile", id="addTile", "data-addtile"="{{screen.addtile}}")
         {{/if}}
-
-        {{#if equals type "date"}}
-          input(type="text", id="{{id}}", class="datepicker")
-        {{/if}}
-
-        {{#if equals type "timespan"}}
-          input(type="text", placeholder="nr of days", id="{{id}}")
-        {{/if}}
-      {{/each}}
-    {{/if}}
-
-    {{#if screen.addtile}}
-      label Tile color
-      input(type="text", class="colorpicker")
-      div(style="clear:both")
-      input(type="button", class="button", value="Add Tile", id="addTile", "data-addtile"="{{screen.addtile}}")
-    {{/if}}
 
 template(name="tile_wizard")
-  #tile-wizard
+  #tile-wizard.panel
     a(href="", id="close-wizard") &times
     {{>tw_screen}}
 

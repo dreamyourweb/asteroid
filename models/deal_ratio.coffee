@@ -1,12 +1,13 @@
 class DealRatio extends Minimongoid
   @bakeCurrentRatio: (options={}) ->
 
-    if options.startdate == undefined
+    if options.startdate == undefined || options.startdate == "" || _.isNaN(options.startdate)
       options.startdate = new Date
       options.startdate.setDate(options.startdate.getDate() - 90)
-    if options.enddate == undefined then options.enddate = new Date
+    if options.enddate == undefined || options.enddate == "" || _.isNaN(options.enddate)
+      options.enddate = new Date
     if options.enddate > new Date then options.enddate = new Date
-    if options.timespan? && timespan != ""
+    if options.timespan? && options.timespan != "" && !_.isNaN(options.timespan)
       options.startdate = new Date
       options.enddate = new Date
       options.startdate.setDate(options.startdate.getDate() - options.timespan)
@@ -37,9 +38,9 @@ class DealRatio extends Minimongoid
       move.data.card.id
     card_closed_from_potential = _.uniq(card_closed_from_potential)
 
-    console.log(deals)
-    console.log(card_which_had_potential)
-    console.log(card_closed_from_potential)
+    # console.log(deals)
+    # console.log(card_which_had_potential)
+    # console.log(card_closed_from_potential)
 
     return deals.length / (card_closed_from_potential.length + deals.length)
 

@@ -1,12 +1,13 @@
 class FlowTime extends Minimongoid
   @bakeTimes: (options={}) ->
 
-    if options.startdate == undefined
+    if options.startdate == undefined || options.startdate == "" || _.isNaN(options.startdate)
       options.startdate = new Date
       options.startdate.setDate(options.startdate.getDate() - 90)
-    if options.enddate == undefined then options.enddate = new Date
+    if options.enddate == undefined || options.enddate == "" || _.isNaN(options.enddate)
+      options.enddate = new Date
     if options.enddate > new Date then options.enddate = new Date
-    if options.timespan? && timespan != ""
+    if options.timespan? && options.timespan != "" && !_.isNaN(options.timespan)
       options.startdate = new Date
       options.enddate = new Date
       options.startdate.setDate(options.startdate.getDate() - options.timespan)
@@ -16,9 +17,6 @@ class FlowTime extends Minimongoid
     # USE ISO DATES
     startdate = options.startdate.toISOString()
     enddate = options.enddate.toISOString()
-
-    console.log startdate
-    console.log enddate
 
     card_form_34_to_5 = for i, move of TrelloCardMove.where( {'data.listBefore.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}, 'data.listAfter.id': TrelloCard.list_ids[4]})
       move.data.card.id
@@ -38,8 +36,6 @@ class FlowTime extends Minimongoid
     last_5 = for i, card of TrelloCard.where({_id: {$in: card_form_34_to_5}}, {sort: {id: 1}})
       move = TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'data.card.id': card.id, 'data.listAfter.id': TrelloCard.list_ids[4]}, {sort: {date: 1}, limit: 1})[0]
 
-    console.log last_34
-    console.log last_5
     dTs = []
     dT = 0
     N = 0
