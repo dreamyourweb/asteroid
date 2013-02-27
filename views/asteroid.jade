@@ -76,7 +76,7 @@ template(name="gridster")
         {{/each}}
 
 template(name="tile")
-  li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}")
+  li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile", id="{{_id}}", style="background: {{color}}")
     a(href="", class="remove-tile") &times
     h2
       {{metric}}
