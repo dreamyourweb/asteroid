@@ -1,23 +1,27 @@
 class FlowTime extends Minimongoid
-  @bakeTimes: (startdate, enddate) ->
+  @bakeTimes: (options={}) ->
 
-    if startdate == undefined
-      startdate = new Date
-      startdate.setDate(startdate.getDate() - 90)
-    if enddate == undefined then enddate = new Date
-    if enddate > new Date then enddate = new Date
-    console.log startdate
-    console.log enddate
+    if options.startdate == undefined
+      options.startdate = new Date
+      options.startdate.setDate(options.startdate.getDate() - 90)
+    if options.enddate == undefined then options.enddate = new Date
+    if options.enddate > new Date then options.enddate = new Date
+    if typeof options.users == "string"
+      options.users = [options.users]
+
 
     # USE ISO DATES
-    startdate = startdate.toISOString()
-    enddate = enddate.toISOString()
+    startdate = options.startdate.toISOString()
+    enddate = options.enddate.toISOString()
 
     card_form_34_to_5 = for i, move of TrelloCardMove.where( {'data.listBefore.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}, 'data.listAfter.id': TrelloCard.list_ids[4]})
       move.data.card.id
 
     card_form_34_to_5 = $.unique(card_form_34_to_5)
-    console.log card_form_34_to_5.length
+
+    if options.users?
+      card_form_34_to_5 = for i, card of TrelloCard.where({id: {$in: card_form_34_to_5}, idMembers: {$in: options.users}})
+        card.id
 
     last_34 = for i, card of TrelloCard.where({_id: {$in: card_form_34_to_5}}, {sort: {id: 1}})
       move = TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'data.card.id': card.id, 'data.listAfter.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}}, {sort: {date: 1}, limit: 1})[0]
@@ -38,8 +42,5 @@ class FlowTime extends Minimongoid
           dT = dT + dt
           dTs.push dt
           N = N + 1
-
-    console.log(dTs)
-    console.log(dT/N/1000)
 
     dT/N/1000
