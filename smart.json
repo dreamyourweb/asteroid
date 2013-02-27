@@ -5,9 +5,6 @@
   },
   "packages": {
     "stylus-mixin": {},
-    "minimongoid": {
-      "path": "/minimongoid/"
-    },
     "router": {},
     "mocha-web": {},
     "jade-handlebars": {},

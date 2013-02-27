@@ -7,9 +7,6 @@
   "dependencies": {
     "basePackages": {
       "stylus-mixin": {},
-      "minimongoid": {
-        "path": "/minimongoid/"
-      },
       "router": {},
       "mocha-web": {},
       "jade-handlebars": {},
@@ -23,9 +20,6 @@
         "git": "https://github.com/Charuru/stylus-mixin.git",
         "tag": "v1.1.0",
         "commit": "30483b684d044c09209882ed49fa4a9907300fcf"
-      },
-      "minimongoid": {
-        "path": "/minimongoid/"
       },
       "router": {
         "git": "https://github.com/tmeasday/meteor-router.git",
