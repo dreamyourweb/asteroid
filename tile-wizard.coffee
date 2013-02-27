@@ -1,15 +1,23 @@
 if Meteor.isClient
   wizardyaml =  """
-                title:  "Services"
-                id: "services"
+                title:  "Metrics"
+                id: "metrics"
                 tiles:
-                  - title: "Aquisitite"
+                  - title: "Sales"
                     index: 0
-                    id: "toggl"
+                    id: "sales"
+                    tiles:
+                      - title: "Perc Deals gesloten"
+                        index: 0
+                        id: "sales1"
+                        addtile: "dealratio"
+                  - title: "Operations"
+                    index: 1
+                    id: "operations"
                     tiles:
                       - title: "Hours worked"
                         index: 0
-                        id: "toggl1"
+                        id: "operations1"
                         inputs:
                           - type: "date"
                             id: begindate
@@ -18,16 +26,11 @@ if Meteor.isClient
                             id: enddate
                             label: "End date"
                         addtile: "toggl1"
-                      - title: "Toggl Metric 2"
-                  - title: "Trello"
-                    index: 1
-                    id: "trello"
-                    tiles:
                       - title: "Trello Metric 1"
                         addtile: "trello1"
                       - title: "Trello Metric 2"
                       - title: "Trello Metric 3"
-                  - title: "Text"
+                  - title: "Test"
                     index: 2
                     id: "text"
                     inputs:
@@ -78,6 +81,8 @@ if Meteor.isClient
           addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val()}
         when "toggl1"
           addTile "Toggl", {color: $(".colorpicker").val()}
+        when "dealratio"
+          addTile "DealRatio", {color: $(".colorpicker").val()}
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)

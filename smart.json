@@ -11,6 +11,8 @@
     "foundation-icons": {},
     "jquery-ui": {},
     "foundation-custom": {},
-    "yaml": {}
+    "yaml": {},
+    "HTML5-History-API": {},
+    "page-js": {}
   }
 }
