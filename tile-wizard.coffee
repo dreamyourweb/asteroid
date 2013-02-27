@@ -76,8 +76,8 @@ if Meteor.isClient
       switch tiletype
         when "text"
           addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val()}
-        when "toggl1", {color: $(".colorpicker").val()}
-          addTile "Toggl"
+        when "toggl1"
+          addTile "Toggl", {color: $(".colorpicker").val()}
 
       $("#tile-wizard").hide(400)
       Session.set("screenChoices", undefined)
@@ -106,6 +106,9 @@ if Meteor.isClient
 
 addTile = (type, options)->
   gridster = $(".gridster ul").gridster().data('gridster')
+
+  if !options?
+    options = {}
 
   if !options.color? || options.color == ""
     options.color = "green"
