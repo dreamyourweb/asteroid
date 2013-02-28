@@ -39,7 +39,7 @@ if Meteor.isClient
           when "text"
             addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val(), size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
           when "toggl1"
-            addTile "Toggl", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "hours worked", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
+            addTile "Toggl", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "hours worked", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val()), threshold: parseInt($("#threshold-value").val())}
           when "dealratio"
             addTile "DealRatio", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "dealratio", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
           when "flowtime"
@@ -88,5 +88,5 @@ addTile = (type, options)->
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->
     updateTiles()
-    LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color}
+    LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color, threshold: options.threshold}
     ,1000

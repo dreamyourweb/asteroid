@@ -20,7 +20,9 @@ if Meteor.isClient
 
   Template.tile.metric = ->
     if this.type == "Toggl"
-      "#{(Toggl.getWorkedHours({timespan: this.timespan})).toFixed(2)} uur"
+      m = Toggl.getWorkedHours({timespan: this.timespan})
+      if this._id? then Session.set("metric-#{this._id}", m)
+      "#{m.toFixed(2)} uur"
     else if this.type == "Text"
       "#{this.text}"
     else if this.type == "DealRatio"
@@ -31,6 +33,10 @@ if Meteor.isClient
       "€#{(DealCash.bakeCurrentCash({timespan: this.timespan})).toFixed(0)}"
     else
       "#{this.row},#{this.col}"
+
+  Template.tile.rendered = ->
+    if Session.get("metric-#{this.data._id}") < this.data.threshold
+      $("##{this.data._id}").addClass('alert')
 
   Template.gridster.events(
     'click .remove-tile' : (e)->
