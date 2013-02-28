@@ -30,7 +30,7 @@ if Meteor.isClient
     else if this.type == "DealCash"
       "€#{(DealCash.bakeCurrentCash({timespan: this.timespan})).toFixed(0)}"
     else
-    "#{this.row},#{this.col}"
+      "#{this.row},#{this.col}"
 
   Template.gridster.events(
     'click .remove-tile' : (e)->

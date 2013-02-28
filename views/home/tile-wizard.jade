@@ -15,7 +15,7 @@ template(name="tw_screen")
 
       {{/if}}
 
-      form
+      form.custom
 
         {{#if screen.inputs}}
           {{#each screen.inputs}}
@@ -39,6 +39,24 @@ template(name="tw_screen")
         {{/if}}
 
         {{#if screen.addtile}}
+          label Threshold
+          .row
+            .four.columns
+              select#threshold-operator(style="display:none")
+                option >
+                option <
+                option >=
+                option <=
+              .custom.dropdown
+                  a.current(href="#") >
+                  a.selector(href="#")
+                  ul
+                    li >
+                    li <
+                    li >=
+                    li <=
+            .eight.columns
+              input#threshold-value(type="text")
           label Tile dimensions
           .row
             .six.columns

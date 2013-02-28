@@ -59,6 +59,7 @@ if Meteor.isClient
     Template.tw_screen.rendered = ->
       $(".datepicker").datepicker();
       $(".colorpicker").colorpicker();
+      $(document).foundationCustomForms();
 
 
     Template.tile_wizard.events(
