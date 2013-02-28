@@ -2,7 +2,7 @@
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
     "branch": "devel",
-    "commit": "dd59b98475508cb8b31251327dc05d222b55b6f6"
+    "commit": "58f243869ca5947a7ea6412dfcaa26b604b1ef78"
   },
   "dependencies": {
     "basePackages": {
@@ -15,7 +15,8 @@
       "foundation-custom": {},
       "yaml": {},
       "HTML5-History-API": {},
-      "page-js": {}
+      "page-js": {},
+      "animate-css": {}
     },
     "packages": {
       "stylus-mixin": {
@@ -67,6 +68,11 @@
         "git": "https://github.com/tmeasday/meteor-page-js.git",
         "tag": "v1.3.5",
         "commit": "c652f795a86498aa4609ab637a694710421cb218"
+      },
+      "animate-css": {
+        "git": "https://github.com/nate-strauser/meteor-animate-css.git",
+        "tag": "v0.1.0",
+        "commit": "993c626b204e596c41cda63cb3fbb0ca3aa5deea"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

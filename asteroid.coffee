@@ -44,10 +44,10 @@ if Meteor.isClient
     tile = $("##{this.data._id}")
     console.log this.data.threshold_operator
     switch this.data.threshold_operator
-      when "<" then if metric < this.data.threshold then tile.addClass('alert')
-      when ">" then if metric > this.data.threshold then tile.addClass('alert')
-      when "<=" then if metric <= this.data.threshold then tile.addClass('alert')
-      when ">=" then if metric >= this.data.threshold then tile.addClass('alert')
+      when "<" then if metric < this.data.threshold then tile.addClass('alert animated pulse')
+      when ">" then if metric > this.data.threshold then tile.addClass('alert animated pulse')
+      when "<=" then if metric <= this.data.threshold then tile.addClass('alert animated pulse')
+      when ">=" then if metric >= this.data.threshold then tile.addClass('alert animated pulse')
 
   Template.gridster.events(
     'click .remove-tile' : (e)->
