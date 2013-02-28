@@ -19,15 +19,15 @@ if Meteor.isClient
 
   Template.tile.metric = ->
     if this.type == "Toggl"
-      "#{(TimeEntries.lastMonthTotal()/3600).toFixed(2)} uur"
+      "#{(Toggl.getWorkedHours({timespan: this.timespan})).toFixed(2)} uur"
     else if this.type == "Text"
       "#{this.text}"
     else if this.type == "DealRatio"
       "#{DealRatio.bakeCurrentRatio({timespan: this.timespan}).toFixed(2)} %"
     else if this.type == "FlowTime"
-      "#{(FlowTime.bakeTimes()/3600/24).toFixed(0)} dagen"
+      "#{(FlowTime.bakeTimes({timespan: this.timespan})/3600/24).toFixed(0)} dagen"
     else if this.type == "DealCash"
-      "E#{(DealCash.bakeCurrentCash()).toFixed(2)}"
+      "€#{(DealCash.bakeCurrentCash({timespan: this.timespan})).toFixed(0)}"
     else
       "#{this.row},#{this.col}"
 
@@ -57,14 +57,14 @@ if Meteor.isClient
 
   Meteor.autosubscribe ->
     Meteor.subscribe("livetiles")
-    Meteor.subscribe("timeentries")
+    Meteor.subscribe("toggltimeentries")
     Meteor.subscribe("users")
     Meteor.subscribe("trellocards")
     Meteor.subscribe("trellocardmoves")
  
 if Meteor.isServer
-  Meteor.publish "timeentries", ->
-    TimeEntries.find({})
+  Meteor.publish "toggltimeentries", ->
+    Toggl._collection.find({})
   Meteor.publish "livetiles", ->
     LiveTiles.find({})
   Meteor.publish "users", ->

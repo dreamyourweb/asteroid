@@ -15,8 +15,8 @@ class DealRatio extends Minimongoid
       options.users = [options.users]
 
     # USE ISO DATES
-    startdate = options.startdate.toISOString()
-    enddate = options.enddate.toISOString()
+    startdate = options.startdate.toJSON()
+    enddate = options.enddate.toJSON()
 
     deals = for i, move of TrelloCardMove.where({ 'data.listBefore.id': TrelloCard.list_ids[3], 'data.listAfter.id': TrelloCard.list_ids[4]})
       move.data.card.id

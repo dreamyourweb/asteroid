@@ -15,8 +15,8 @@ class FlowTime extends Minimongoid
       options.users = [options.users]
 
     # USE ISO DATES
-    startdate = options.startdate.toISOString()
-    enddate = options.enddate.toISOString()
+    startdate = options.startdate.toJSON()
+    enddate = options.enddate.toJSON()
 
     card_form_34_to_5 = for i, move of TrelloCardMove.where( {'data.listBefore.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}, 'data.listAfter.id': TrelloCard.list_ids[4]})
       move.data.card.id

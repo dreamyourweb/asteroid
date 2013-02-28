@@ -75,8 +75,8 @@ class Minimongoid
     if @isPersisted()
       @constructor._collection.update @id, { $set: @mongoize(attributes) }
         # @constructor._collection.insert attributes
-    else if attributes.id?
-      attributes._id = attributes.id
+    else #if attributes.id?
+      # attributes._id = attributes.id
       @id = @constructor._collection.insert attributes
     
     this

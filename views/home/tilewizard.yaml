@@ -1,12 +1,54 @@
-title:  "Services"
+title:  "Metrics"
+id: "metrics"
 tiles:
-  - title: "Toggl"
+  - title: "Sales"
+    index: 0
+    id: "sales"
     tiles:
-      - title: "Toggl Metric 1"
-      - title: "Toggl Metric 2"
-  - title: "Trello"
+      - title: "Perc Deals gesloten"
+        index: 0
+        id: "sales1"
+        inputs:
+          - type: "timespan"
+            id: "timespan"
+            label: "Time span"
+        addtile: "dealratio"
+      - title: "Cycle Time"
+        index: 1
+        id: "sales2"
+        inputs:
+          - type: "timespan"
+            id: "timespan"
+            label: "Time span"
+        addtile: "flowtime"
+      - title: "Deal Cash"
+        index: 2
+        id: "sales3"
+        inputs:
+          - type: "timespan"
+            id: "timespan"
+            label: "Time span"
+        addtile: "dealcash"
+  - title: "Operations"
+    index: 1
+    id: "operations"
     tiles:
-      - title: "Trello Metric 1"
+      - title: "Hours worked"
+        index: 0
+        id: "operations1"
+        inputs:
+          - type: "timespan"
+            id: "timespan"
+            label: "Time span"
+        addtile: "toggl1"
       - title: "Trello Metric 2"
       - title: "Trello Metric 3"
-  - title: "Text"
+  - title: "Test"
+    index: 2
+    id: "text"
+    inputs:
+      - type: "text"
+        placeholder: "Enter your tile text"
+        label: "Tile text"
+        id: "tiletext"
+    addtile: "text"
