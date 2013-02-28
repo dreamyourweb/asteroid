@@ -88,4 +88,4 @@ addTile = (type, options)->
   Meteor.setTimeout ->
     updateTiles()
     LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color}
-    ,500
+    ,1000

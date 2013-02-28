@@ -2,6 +2,7 @@ class Toggl extends Minimongoid
   @_collection: new Meteor.Collection 'toggltimeentries'
   
   @getWorkedHours: (options={}) ->
+
     console.log  options.timespan
     if options.startdate == undefined || options.startdate == "" || _.isNaN(options.startdate)
       options.startdate = new Date
@@ -20,12 +21,13 @@ class Toggl extends Minimongoid
     startdate = options.startdate.toJSON()
     enddate = options.enddate.toJSON()
 
-    console.log startdate
-    console.log enddate
+    startprof = new Date
 
     totalTime = 0
     for i, entry of Toggl.where {start: {$gte: startdate, $lt: enddate}}
       totalTime = totalTime + entry.duration
+
+    console.log "Prof: " + (new Date - startprof)
 
     totalTime/3600
 

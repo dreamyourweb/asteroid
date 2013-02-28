@@ -701,8 +701,8 @@
               'data-row': this.$player.attr('data-row'),
               'data-col': this.$player.attr('data-col'),
               css: {
-                  width: coords.width,
-                  height: coords.height
+                  width: coords.width + 40,
+                  height: coords.height + 40
               }
         }).appendTo(this.$el);
 

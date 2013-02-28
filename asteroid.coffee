@@ -1,11 +1,12 @@
 LiveTiles = new Meteor.Collection "livetiles"
 TimeEntries = new TimeEntriesCollection "timeentries"
 
-updateTiles = ->
-  gridster = $(".gridster ul").gridster().data('gridster')
-  changed_tiles = gridster.serialize_changed()
-  for tile, i in changed_tiles
-    LiveTiles.update(tile.id, $set: {col: tile.col, row: tile.row})
+updateTiles = (changed_tiles) ->
+  # changed_tiles = gridster.serialize_changed()
+  Meteor.setTimeout ->
+    for tile, i in changed_tiles
+      LiveTiles.update(tile.id, $set: {col: tile.col, row: tile.row})
+  ,500
 
 if Meteor.isClient
 
@@ -29,17 +30,16 @@ if Meteor.isClient
     else if this.type == "DealCash"
       "€#{(DealCash.bakeCurrentCash({timespan: this.timespan})).toFixed(0)}"
     else
-      "#{this.row},#{this.col}"
+    "#{this.row},#{this.col}"
 
   Template.gridster.events(
     'click .remove-tile' : (e)->
       gridster = $(".gridster ul").gridster().data('gridster')
       tile_id = $(e.currentTarget).parent()[0].id
       gridster.remove_widget($(e.currentTarget).parent())
-      Meteor.setTimeout ->
-        updateTiles
-        LiveTiles.remove tile_id
-        , 500
+      changed_tiles = gridster.serialize_changed()
+      updateTiles(changed_tiles)
+      LiveTiles.remove tile_id
       false
     )
 
@@ -51,7 +51,8 @@ if Meteor.isClient
         (id: wgd.el[0].id, col: wgd.col, row: wgd.row, size_x: wgd.size_x, size_y: wgd.size_y)
       draggable: (
         stop: ->
-          updateTiles()
+          changed_tiles = $('.gridster ul').gridster().data('gridster').serialize_changed()
+          updateTiles(changed_tiles)
       )
     )
 
