@@ -19,20 +19,25 @@ if Meteor.isClient
     LiveTiles.find().fetch()
 
   Template.tile.metric = ->
-    if this.type == "Toggl"
+    result = if this.type == "Toggl"
       m = Toggl.getWorkedHours({timespan: this.timespan})
-      if this._id? then Session.set("metric-#{this._id}", m)
       "#{m.toFixed(2)} uur"
     else if this.type == "Text"
       "#{this.text}"
     else if this.type == "DealRatio"
-      "#{DealRatio.bakeCurrentRatio({timespan: this.timespan}).toFixed(2)} %"
+      m = DealRatio.bakeCurrentRatio({timespan: this.timespan})
+      "#{m.toFixed(2)} %"
     else if this.type == "FlowTime"
-      "#{(FlowTime.bakeTimes({timespan: this.timespan})/3600/24).toFixed(0)} dagen"
+      m = (FlowTime.bakeTimes({timespan: this.timespan})/3600/24)
+      "#{m.toFixed(0)} dagen"
     else if this.type == "DealCash"
-      "€#{(DealCash.bakeCurrentCash({timespan: this.timespan})).toFixed(0)}"
+      m = (DealCash.bakeCurrentCash({timespan: this.timespan}))
+      "€#{m.toFixed(0)}"
     else
       "#{this.row},#{this.col}"
+
+    Session.set("metric-#{this._id}", m)
+    return result
 
   Template.tile.rendered = ->
     metric = Session.get("metric-#{this.data._id}")

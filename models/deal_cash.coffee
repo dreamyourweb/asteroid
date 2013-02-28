@@ -23,11 +23,13 @@ class DealCash extends Minimongoid
     deal_card_ids = _.uniq(deals)
 
     if options.users?
-      deals_cash = for i, card of TrelloCard.where({idMembers: {$in: options.users}, _id: {$in: deal_card_ids}})
+      deals_cash = for i, card of TrelloCard.where({idMembers: {$in: options.users}, id: {$in: deal_card_ids}})
         card.getCash()
     else
-      deals_cash = for i, card of TrelloCard.where({_id: {$in: deal_card_ids}})
+      deals_cash = for i, card of TrelloCard.where({id: {$in: deal_card_ids}})
         card.getCash()
+
+    console.log deals_cash
 
     total_cash = 0
     for cash in deals_cash

@@ -35,17 +35,30 @@ if Meteor.isClient
       'click #addTile' : (e) ->
         button = $(e.currentTarget)
         tiletype = button.data('addtile')
+
+        general_options = 
+          timespan: parseInt($("input#timespan").val())
+          color: $(".colorpicker").val()
+          size_x: parseInt($("#tilesizex").val())
+          size_y: parseInt($("#tilesizey").val())
+          threshold: parseFloat($("#threshold-value").val())
+          threshold_operator: $("#threshold-operator").val()
+
         switch tiletype
           when "text"
             addTile "Text", {text: $('#tiletext').val(), color: $(".colorpicker").val(), size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
           when "toggl1"
-            addTile "Toggl", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "hours worked", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val()), threshold: parseInt($("#threshold-value").val()), threshold_operator: $("#threshold-operator").val()}
+            general_options.title = "Hours worked"
+            addTile "Toggl", general_options
           when "dealratio"
-            addTile "DealRatio", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "dealratio", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
+            general_options.title = "Deal ratio"
+            addTile "DealRatio", general_options
           when "flowtime"
-            addTile "FlowTime", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "Cycle Time", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
+            general_options.title = "Cycle time"
+            addTile "FlowTime", general_options
           when "dealcash"
-            addTile "DealCash", {timespan: parseInt($("input#timespan").val()), color: $(".colorpicker").val(), title: "Deal Cash", size_x: parseInt($("#tilesizex").val()), size_y: parseInt($("#tilesizey").val())}
+            general_options.title = "Deal cash"
+            addTile "DealCash", general_options
 
         $("#tile-wizard").hide(400)
         Session.set("screenChoices", undefined)
