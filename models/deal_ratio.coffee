@@ -23,16 +23,14 @@ class DealRatio extends Minimongoid
     deals = _.uniq(deals)
 
     if options.user?
-      console.log "WTF1"
       deals = for i, card of TrelloCard.where({id: {$in: deals}, idMembers: options.user.trello.id})
-        card.id
+        card.attributes.id
 
     card_which_had_potential = for i, move of TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'data.listAfter.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}})
       move.data.card.id
     card_which_had_potential = _.uniq(card_which_had_potential)
 
     if options.user?
-      console.log "WTF"
       card_which_had_potential = for i, card of TrelloCard.where({id: {$in: card_which_had_potential}, idMembers: options.user.trello.id})
         card.id
 

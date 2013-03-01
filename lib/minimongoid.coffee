@@ -5,11 +5,9 @@ class Minimongoid
   @fields: {}
 
   constructor: (attributes = {}) ->
-    if attributes._id
-      @attributes = attributes
+    @attributes = attributes
+    if attributes._id?
       @id = attributes._id
-    else    
-      @attributes = attributes
 
     for field, opts of @constructor.fields
       unless @attributes.hasOwnProperty field
@@ -75,6 +73,9 @@ class Minimongoid
     if @isPersisted()
       @constructor._collection.update @id, { $set: @mongoize(attributes) }
         # @constructor._collection.insert attributes
+    else if @attributes.id?
+      @attributes._id = @attributes.id
+      @id = @constructor._collection.insert attributes
     else #if attributes.id?
       # attributes._id = attributes.id
       @id = @constructor._collection.insert attributes
