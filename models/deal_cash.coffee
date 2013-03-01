@@ -11,8 +11,8 @@ class DealCash extends Minimongoid
       options.startdate = new Date
       options.enddate = new Date
       options.startdate.setDate(options.startdate.getDate() - options.timespan)
-    if typeof options.users == "string"
-      options.users = [options.users]
+    if options.user == undefined
+      delete options['user']
 
     # USE ISO DATES
     startdate = options.startdate.toJSON()
@@ -22,14 +22,12 @@ class DealCash extends Minimongoid
       move.data.card.id
     deal_card_ids = _.uniq(deals)
 
-    if options.users?
-      deals_cash = for i, card of TrelloCard.where({idMembers: {$in: options.users}, id: {$in: deal_card_ids}})
+    if options.user?
+      deals_cash = for i, card of TrelloCard.where({idMembers: options.user.trello.id, id: {$in: deal_card_ids}})
         card.getCash()
     else
       deals_cash = for i, card of TrelloCard.where({id: {$in: deal_card_ids}})
         card.getCash()
-
-    console.log deals_cash
 
     total_cash = 0
     for cash in deals_cash

@@ -1,9 +1,17 @@
 template(name="page_home")
-  {{> wizard_toggle}}
   {{> tile_wizard}}
+  .row.gridster-header
+    .eight.columns
+      h1.title Asteroid
+
+    .four.columns
+      a#toggle-wizard(href="#")
+        h1
+          i.general.foundicon-plus#wizard-toggle
+      
   .row
     .twelve.columns
-      h1 Asteroid
+
       {{> gridster}}
 
 template(name="gridster")
@@ -22,4 +30,7 @@ template(name="tile")
       {{/isolate}}
     h5
       {{title}}
+    {{#if user}}
+      img.gravatar(src="{{gravatar_url}}")
+    {{/if}}
 

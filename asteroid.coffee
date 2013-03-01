@@ -14,24 +14,28 @@ if Meteor.isClient
     '/': 'page_home'
     '/test': 'page_test'
 
+  Template.page_home.events(
+    'click #toggle-wizard' : ->
+      $("#tile-wizard").toggle(400)
+  )
 
   Template.gridster.tiles = ->
     LiveTiles.find().fetch()
 
   Template.tile.metric = ->
     result = if this.type == "Toggl"
-      m = Toggl.getWorkedHours({timespan: this.timespan})
+      m = Toggl.getWorkedHours({timespan: this.timespan, user: this.user})
       "#{m.toFixed(2)} uur"
     else if this.type == "Text"
       "#{this.text}"
     else if this.type == "DealRatio"
-      m = DealRatio.bakeCurrentRatio({timespan: this.timespan})
+      m = DealRatio.bakeCurrentRatio({timespan: this.timespan, user: this.user})
       "#{m.toFixed(2)} %"
     else if this.type == "FlowTime"
-      m = (FlowTime.bakeTimes({timespan: this.timespan})/3600/24)
+      m = (FlowTime.bakeTimes({timespan: this.timespan, user: this.user})/3600/24)
       "#{m.toFixed(0)} dagen"
     else if this.type == "DealCash"
-      m = (DealCash.bakeCurrentCash({timespan: this.timespan}))
+      m = (DealCash.bakeCurrentCash({timespan: this.timespan, user: this.user}))
       "€#{m.toFixed(0)}"
     else
       "#{this.row},#{this.col}"
@@ -42,12 +46,12 @@ if Meteor.isClient
   Template.tile.rendered = ->
     metric = Session.get("metric-#{this.data._id}")
     tile = $("##{this.data._id}")
-    console.log this.data.threshold_operator
-    switch this.data.threshold_operator
-      when "<" then if metric < this.data.threshold then tile.addClass('alert animated pulse')
-      when ">" then if metric > this.data.threshold then tile.addClass('alert animated pulse')
-      when "<=" then if metric <= this.data.threshold then tile.addClass('alert animated pulse')
-      when ">=" then if metric >= this.data.threshold then tile.addClass('alert animated pulse')
+    if this.data.threshold != 0 && this.data.threshold != null
+      switch this.data.threshold_operator
+        when "<" then if metric < this.data.threshold then tile.addClass('alert')
+        when ">" then if metric > this.data.threshold then tile.addClass('alert')
+        when "<=" then if metric <= this.data.threshold then tile.addClass('alert')
+        when ">=" then if metric >= this.data.threshold then tile.addClass('alert')
 
   Template.gridster.events(
     'click .remove-tile' : (e)->

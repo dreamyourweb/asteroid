@@ -47,16 +47,16 @@ template(name="tw_screen")
                 option <
                 option >=
                 option <=
-              .custom.dropdown
-                  a.current(href="#") >
-                  a.selector(href="#")
-                  ul
-                    li >
-                    li <
-                    li >=
-                    li <=
             .eight.columns
               input#threshold-value(type="text")
+          label User
+          .row
+            .twelve.columns
+              select#user(style="display:none")
+                option(value="*") -
+                {{#each users}}
+                  option(value="{{username}}") {{profile.full_name}}
+                {{/each}}
           label Tile dimensions
           .row
             .six.columns
@@ -74,8 +74,3 @@ template(name="tile_wizard")
     a(href="", id="close-wizard")
       i.general.foundicon-remove
     {{>tw_screen}}
-
-template(name="wizard_toggle")
-  #wizard-toggle
-    a(href="", id="show-wizard")
-      i.general.foundicon-plus

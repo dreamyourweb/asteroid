@@ -5,6 +5,10 @@
 body, html, h1, h2, h3, h4, h5, h6
   font-family: 'Roboto', sans-serif;
 
+.row.gridster-header{
+  padding: 10px
+}
+
 h1
   font-weight: 300
 
@@ -41,6 +45,13 @@ h1
         -ms-animation-duration: 500ms;
         // -ms-animation-iteration-count: infinite;
 
+      img.gravatar
+        width: 50px
+        height: 50px
+        position: absolute
+        right: 0
+        bottom: 0
+
 
 
     .preview-holder
@@ -52,14 +63,10 @@ h1
   min-width: 0
 
 #wizard-toggle
-  position: fixed
-  right: 10px
-  top: 10px
-  a{
-    color: black
-  }
-  font-size: 50px
-  text-align: center
+  color: rgba(0,0,0,0.7)
+  margin-top: 15px
+  font-size: 30px
+  float: right
 
 #tile-wizard
   display: none
@@ -72,6 +79,7 @@ h1
   // background: rgba(255,255,255,0.85)
   // padding: 25px
   // color: white
+  box-shadow: 0 0 20px black
 
   #back-wizard
     color: black

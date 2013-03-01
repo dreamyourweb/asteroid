@@ -14,6 +14,12 @@ if Meteor.isClient
       else
         return wizardscreens
 
+    Template.tw_screen.users = ->
+      Meteor.users.find({}).fetch()
+
+    Template.tw_screen.avatar_url = (emails) ->
+      Gravatar.imageUrl(emails[0].address)
+
     Template.tw_screen.equals = (l,r) ->
       l == r
 
@@ -43,6 +49,7 @@ if Meteor.isClient
           size_y: parseInt($("#tilesizey").val())
           threshold: parseFloat($("#threshold-value").val())
           threshold_operator: $("#threshold-operator").val()
+          user: $("#user").val()
 
         switch tiletype
           when "text"
@@ -94,12 +101,19 @@ addTile = (type, options)->
 
   if !options.color? || options.color == ""
     options.color = "green"
+  
+  if (meteor_user = Meteor.users.find({username: options.user}).fetch()[0])?
+    options.user = meteor_user
+    gravatar_url = Gravatar.imageUrl(meteor_user.emails[0].address)
+  else
+    options.user = undefined
 
-  console.log options
+  
+
 
   tile = gridster.add_widget("<li id='newTile' style='background: #{options.color}' class='metro-tile'><h2>"+options.text+"</h2></li>",options.size_x,options.size_y,1,1)
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->
     updateTiles()
-    LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color, threshold: options.threshold, threshold_operator: options.threshold_operator}
+    LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color, threshold: options.threshold, threshold_operator: options.threshold_operator, user: options.user, gravatar_url: gravatar_url}
     ,1000

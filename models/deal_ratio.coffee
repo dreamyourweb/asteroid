@@ -11,8 +11,8 @@ class DealRatio extends Minimongoid
       options.startdate = new Date
       options.enddate = new Date
       options.startdate.setDate(options.startdate.getDate() - options.timespan)
-    if typeof options.users == "string"
-      options.users = [options.users]
+    if options.user == undefined
+      delete options['user']
 
     # USE ISO DATES
     startdate = options.startdate.toJSON()
@@ -22,16 +22,18 @@ class DealRatio extends Minimongoid
       move.data.card.id
     deals = _.uniq(deals)
 
-    if options.users?
-      deals = for i, card of TrelloCard.where({id: {$in: deals}, idMembers: {$in: options.users}})
+    if options.user?
+      console.log "WTF1"
+      deals = for i, card of TrelloCard.where({id: {$in: deals}, idMembers: options.user.trello.id})
         card.id
 
     card_which_had_potential = for i, move of TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'data.listAfter.id': {$in: [TrelloCard.list_ids[2],TrelloCard.list_ids[3]]}})
       move.data.card.id
     card_which_had_potential = _.uniq(card_which_had_potential)
 
-    if options.users?
-      card_which_had_potential = for i, card of TrelloCard.where({id: {$in: card_which_had_potential}, idMembers: {$in: options.users}})
+    if options.user?
+      console.log "WTF"
+      card_which_had_potential = for i, card of TrelloCard.where({id: {$in: card_which_had_potential}, idMembers: options.user.trello.id})
         card.id
 
     card_closed_from_potential = for i, move of TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'type': 'updateCard', 'data.card.closed': true, 'data.card.id': {$in: card_which_had_potential}})
@@ -42,5 +44,11 @@ class DealRatio extends Minimongoid
     # console.log(card_which_had_potential)
     # console.log(card_closed_from_potential)
 
-    return deals.length / (card_closed_from_potential.length + deals.length)
+    if deals.length == 0
+      return 0
+
+    ratio =  deals.length / (card_closed_from_potential.length + deals.length)
+    if isNaN(ratio)
+      return undefined
+    return ratio
 

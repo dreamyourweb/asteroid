@@ -11,8 +11,8 @@ class FlowTime extends Minimongoid
       options.startdate = new Date
       options.enddate = new Date
       options.startdate.setDate(options.startdate.getDate() - options.timespan)
-    if typeof options.users == "string"
-      options.users = [options.users]
+    if options.user == undefined
+      delete options['user']
 
     # USE ISO DATES
     startdate = options.startdate.toJSON()
@@ -23,8 +23,8 @@ class FlowTime extends Minimongoid
 
     card_form_34_to_5 = _.uniq(card_form_34_to_5)
 
-    if options.users?
-      card_form_34_to_5 = for i, card of TrelloCard.where({id: {$in: card_form_34_to_5}, idMembers: {$in: options.users}})
+    if options.user?
+      card_form_34_to_5 = for i, card of TrelloCard.where({id: {$in: card_form_34_to_5}, idMembers: options.user.trello.id})
         card.id
 
     last_34 = for i, card of TrelloCard.where({_id: {$in: card_form_34_to_5}}, {sort: {id: 1}})

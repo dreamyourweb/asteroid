@@ -2,7 +2,7 @@
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
     "branch": "devel",
-    "commit": "58f243869ca5947a7ea6412dfcaa26b604b1ef78"
+    "commit": "a60f4eeddd5255cda5769f47d874d67117de21de"
   },
   "dependencies": {
     "basePackages": {
@@ -16,7 +16,8 @@
       "yaml": {},
       "HTML5-History-API": {},
       "page-js": {},
-      "animate-css": {}
+      "animate-css": {},
+      "gravatar": {}
     },
     "packages": {
       "stylus-mixin": {
@@ -74,6 +75,11 @@
         "tag": "v0.1.0",
         "commit": "993c626b204e596c41cda63cb3fbb0ca3aa5deea"
       },
+      "gravatar": {
+        "git": "https://github.com/tmeasday/meteor-gravatar.git",
+        "tag": "v0.0.3",
+        "commit": "557d1a7bff98d285cb023b0f44541a66bf0c7b4c"
+      },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
         "tag": "v1.3.5",
@@ -98,6 +104,16 @@
         "git": "https://github.com/IainShigeoka/meteor-foundation-icons-social.git",
         "tag": "v1.0.1",
         "commit": "c209868d26fd39b4ece777a3c0b010207618042d"
+      },
+      "crypto-md5": {
+        "git": "https://github.com/tmeasday/meteor-crypto-md5.git",
+        "tag": "v0.0.1",
+        "commit": "a0638a6cabfc84e19f2d5828f76aa8f6a0cc8c1a"
+      },
+      "crypto-base": {
+        "git": "https://github.com/tmeasday/meteor-crypto-base.git",
+        "tag": "v0.0.1",
+        "commit": "668fc710ad041eee6ae2f9b53289128f211aa9e0"
       }
     }
   }
