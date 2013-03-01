@@ -31,6 +31,7 @@ template(name="tile")
     h5
       {{title}}
     {{#if user}}
+      h6 {{user.profile.full_name}}
       img.gravatar(src="{{gravatar_url}}")
     {{/if}}
 
