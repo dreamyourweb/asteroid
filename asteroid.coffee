@@ -4,9 +4,18 @@ TimeEntries = new TimeEntriesCollection "timeentries"
 updateTiles = (changed_tiles) ->
   # changed_tiles = gridster.serialize_changed()
   Meteor.setTimeout ->
+    console.log changed_tiles
     for tile, i in changed_tiles
       LiveTiles.update(tile.id, $set: {col: tile.col, row: tile.row})
   ,500
+
+# updateTileMetrics = ->
+#   gridster = $(".gridster ul").gridster().data('gridster')
+#   for i, tile of LiveTiles.find().fetch()
+#     console.log tile
+#     if $("##{tile._id}").length > 0
+#       gridster.remove_widget("##{tile._id}")
+#     gridster.add_widget(Template.tile(tile),tile.size_x,tile.size_y,tile.col,tile.row)
 
 if Meteor.isClient
 
@@ -77,13 +86,14 @@ if Meteor.isClient
       )
     )
 
-  Meteor.autosubscribe ->
-    Meteor.subscribe("livetiles")
-    Meteor.subscribe("toggltimeentries")
-    Meteor.subscribe("users")
-    Meteor.subscribe("trellocards")
-    Meteor.subscribe("trellocardmoves")
- 
+  Meteor.autorun ->
+    Meteor.subscribe "livetiles"
+    Meteor.subscribe "trellocardmoves"
+    Meteor.subscribe "toggltimeentries"
+    Meteor.subscribe "users"
+    Meteor.subscribe "trellocards"
+    Meteor.subscribe "metrictiles"
+   
 if Meteor.isServer
   Meteor.publish "toggltimeentries", ->
     Toggl._collection.find({})
@@ -93,10 +103,16 @@ if Meteor.isServer
     Meteor.users.find({})
   Meteor.publish "trellocards", ->
     TrelloCard._collection.find({})
+  Meteor.publish "metrictiles", ->
+    MetricTile._collection.find({})
   Meteor.publish "trellocardmoves", ->
     TrelloCardMove._collection.find({})
 
   Meteor.startup ->
+    Meteor.setInterval ->
+      TrelloCardMove.importMoves()
+      TrelloCard.importCards()
+     ,1000*3600
   	#Meteor.call 'getTogglTimeEntries', (e, result) ->
      # TimeEntries.remove({})
       #TimeEntries.insertFromJSON(JSON.parse(result.content))

@@ -108,9 +108,6 @@ addTile = (type, options)->
   else
     options.user = undefined
 
-  
-
-
   tile = gridster.add_widget("<li id='newTile' style='background: #{options.color}' class='metro-tile'><h2>"+options.text+"</h2></li>",options.size_x,options.size_y,1,1)
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->

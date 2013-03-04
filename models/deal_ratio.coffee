@@ -1,18 +1,7 @@
-class DealRatio extends Minimongoid
+class DealRatio
   @bakeCurrentRatio: (options={}) ->
 
-    if options.startdate == undefined || options.startdate == "" || _.isNaN(options.startdate)
-      options.startdate = new Date
-      options.startdate.setDate(options.startdate.getDate() - 90)
-    if options.enddate == undefined || options.enddate == "" || _.isNaN(options.enddate)
-      options.enddate = new Date
-    if options.enddate > new Date then options.enddate = new Date
-    if options.timespan? && options.timespan != "" && !_.isNaN(options.timespan)
-      options.startdate = new Date
-      options.enddate = new Date
-      options.startdate.setDate(options.startdate.getDate() - options.timespan)
-    if options.user == undefined
-      delete options['user']
+    options = Metric.checkOptions(options)
 
     # USE ISO DATES
     startdate = options.startdate.toJSON()
@@ -37,10 +26,6 @@ class DealRatio extends Minimongoid
     card_closed_from_potential = for i, move of TrelloCardMove.where({'date': {$gte: startdate, $lt: enddate}, 'type': 'updateCard', 'data.card.closed': true, 'data.card.id': {$in: card_which_had_potential}})
       move.data.card.id
     card_closed_from_potential = _.uniq(card_closed_from_potential)
-
-    # console.log(deals)
-    # console.log(card_which_had_potential)
-    # console.log(card_closed_from_potential)
 
     if deals.length == 0
       return 0

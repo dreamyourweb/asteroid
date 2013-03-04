@@ -1,5 +1,5 @@
 class Minimongoid
-  id: undefined
+  id: undefined 
   attributes: {}
   _saved_attributes: undefined
   @fields: {}
@@ -79,7 +79,7 @@ class Minimongoid
     else #if attributes.id?
       # attributes._id = attributes.id
       @id = @constructor._collection.insert attributes
-    
+
     this
     
   update: (@attributes) ->
@@ -115,6 +115,12 @@ class Minimongoid
 
   @create: (attributes) ->
     @new(attributes).save()
+
+  @find: (selector = {}, options = {}) ->
+    @_collection.find(selector, options)
+
+  @findOne: (selector = {}, options = {}) ->
+    @_collection.findOne(selector, options)
 
   @where: (selector = {}, options = {}) ->
     @all(selector,options)

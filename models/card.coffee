@@ -2,13 +2,13 @@ class TrelloCardMove extends Minimongoid
   @_collection: new Meteor.Collection 'trellocardmoves'
 
   @importMoves: ->
-    Meteor.call 'getTrelloCardMoves', (e,moves) ->
+    Meteor.call 'getTrelloCardMoves', (e,moves) =>
       if moves?
         for i, move of moves
-          if (old_move = TrelloCardMove.where(_id: move.id)[0]) != undefined
+          if (old_move = this.where(_id: move.id)[0]) != undefined
             console.log(old_move.update move)
           else
-            console.log(TrelloCardMove.create move)
+            console.log(this.create move)
 
 
 class TrelloCard extends Minimongoid
@@ -16,13 +16,13 @@ class TrelloCard extends Minimongoid
   @list_ids: ["4f7b0a856f0fc2d24dabec3c", "4f7b0a856f0fc2d24dabec3b","4f7b0a856f0fc2d24dabec3d","4f7b0bac01fd2f07368c022c","4f7b0bb101fd2f07368c08b8"]
 
   @importCards: ->
-    Meteor.call 'getTrelloCards', (e,cards) ->
+    Meteor.call 'getTrelloCards', (e,cards) =>
       if cards?
         for i, card of cards
-          if (old_card = TrelloCard.where(_id: card.id)[0]) != undefined
+          if (old_card = this.where(_id: card.id)[0]) != undefined
             console.log(old_card.update card)
           else
-            console.log(TrelloCard.create card)
+            console.log(this.create card)
 
   getCash: ->
     cash_regex = @attributes.desc.match(/BSC:(.|\n)*- (\d*)€/)
@@ -33,8 +33,11 @@ class TrelloCard extends Minimongoid
     parseFloat(prob_regex[prob_regex.length-1])/100 if prob_regex?
 
 if Meteor.isServer
+
   Meteor.methods 
     getTrelloCards: ->
+      date = new Date
+      date.setDate(date.getDate()-7)
       result = undefined
       @unblock()
       result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/cards",
@@ -51,6 +54,11 @@ if Meteor.isServer
 
     getTrelloCardMoves: ->
       result = undefined
+      if (lastActionDate = TrelloCardMove.findOne({},{sort: {date: 1}}).date)
+        lastActionDate = lastActionDate.toJSON
+      else
+        lastActionDate = null
+        
       @unblock()
       result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
         params:
@@ -58,6 +66,7 @@ if Meteor.isServer
           token: _TRELLO_TOKEN
           filter: "updateCard,createCard"
           limit: 500
+          since: lastActionDate
       )
       if result.statusCode is 200
         # return result
