@@ -119,7 +119,15 @@ if Meteor.isServer
   Meteor.publish "toggltimeentries", ->
     startdate = new Date
     startdate.setDate(startdate.getDate()-90)
-    Toggl._collection.find({$or: [{start: {$gte: startdate.toJSON()}}, {tag_names: "WBSO"}]})
+    Toggl._collection.find(
+      {$or: [{start: {$gte: startdate.toJSON()}}, {tag_names: "WBSO"}]}
+      fields: 
+        duration: 1
+        start: 1
+        end: 1
+        tag_names: 1
+        user_id: 1
+    )
   Meteor.publish "livetiles", ->
     LiveTiles.find({})
   Meteor.publish "users", ->
@@ -129,7 +137,11 @@ if Meteor.isServer
   Meteor.publish "metrictiles", ->
     MetricTile._collection.find({})
   Meteor.publish "trellocardmoves", ->
-    TrelloCardMove._collection.find({})
+    TrelloCardMove._collection.find({},
+    fields:
+      memberCreator: 0
+      idMemberCreator: 0
+    )
 
   Meteor.startup ->
     Meteor.setInterval ->
