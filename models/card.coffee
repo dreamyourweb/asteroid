@@ -19,18 +19,26 @@ class TrelloCard extends Minimongoid
     Meteor.call 'getTrelloCards', (e,cards) =>
       if cards?
         for i, card of cards
+          card.bsc_cash = @getCash(card.desc)
+          card.bsc_prob = @getDealProbability(card.desc)
+          card.bsc_date = @getDealDate(card.desc)
           if (old_card = this.where(_id: card.id)[0]) != undefined
             console.log(old_card.update card)
           else
             console.log(this.create card)
 
-  getCash: ->
-    cash_regex = @attributes.desc.match(/BSC:(.|\n)*- (\d*)€/)
+  @getCash: (description) ->
+    cash_regex = description.match(/BSC:(.|\n)*- (\d*)€/)
     parseFloat(cash_regex[cash_regex.length-1]) if cash_regex?
 
-  getDealProbability: ->
-    prob_regex = @attributes.desc.match(/BSC:(.|\n)*- (\d*)%/)
+  @getDealProbability: (description) ->
+    prob_regex = description.match(/BSC:(.|\n)*- (\d*)%/)
     parseFloat(prob_regex[prob_regex.length-1])/100 if prob_regex?
+
+  @getDealDate: (description) ->
+    date_regex = description.match(/BSC:(.|\n)*- date: (\d*)/)
+    new Date(date_regex[date_regex.length-1]) if deal_regex?
+
 
 if Meteor.isServer
 
@@ -58,7 +66,7 @@ if Meteor.isServer
         lastActionDate = lastActionDate.toJSON
       else
         lastActionDate = null
-        
+
       @unblock()
       result = Meteor.http.call("GET", "https://api.trello.com/1/boards/4f7b0a856f0fc2d24dabec36/actions",
         params:

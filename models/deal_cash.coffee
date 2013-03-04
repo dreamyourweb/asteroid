@@ -13,10 +13,10 @@ class DealCash
 
     if options.user?
       deals_cash = for i, card of TrelloCard.where({idMembers: options.user.trello.id, id: {$in: deal_card_ids}})
-        card.getCash()
+        card.bsc_cash
     else
       deals_cash = for i, card of TrelloCard.where({id: {$in: deal_card_ids}})
-        card.getCash()
+        card.bsc_cash
 
     total_cash = 0
     for cash in deals_cash
