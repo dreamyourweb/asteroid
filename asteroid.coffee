@@ -17,6 +17,13 @@ updateTiles = (changed_tiles) ->
 #       gridster.remove_widget("##{tile._id}")
 #     gridster.add_widget(Template.tile(tile),tile.size_x,tile.size_y,tile.col,tile.row)
 
+checkSessions = (session_vars) ->
+  for i, session_var of session_vars
+    unless Session.get(session_var)
+      return false
+  true
+
+
 if Meteor.isClient
 
   Meteor.Router.add
@@ -29,7 +36,9 @@ if Meteor.isClient
   )
 
   Template.gridster.tiles = ->
-    LiveTiles.find().fetch()
+    if checkSessions(["subscription_livetiles","subscription_trellocardmoves","subscription_toggltimeentries","subscription_users","subscription_trellocards","subscription_metrictiles"])
+      $(".loader").hide()
+      LiveTiles.find().fetch()
 
   Template.tile.metric = ->
     result = if this.type == "Toggl"
@@ -49,6 +58,9 @@ if Meteor.isClient
     else if this.type == "BSC"
       m = (BSC.bakeCurrentBSC({timespan: this.timespan, user: this.user}))
       "€#{m.toFixed(0)}"
+    else if this.type == "WBSO"
+      m = (WBSO.getWBSO({timespan: this.timespan, user: this.user}))
+      "#{m.toFixed(2)} uur"
     else
       "#{this.row},#{this.col}"
 
@@ -90,18 +102,24 @@ if Meteor.isClient
     )
 
   Meteor.autorun ->
-    Meteor.subscribe "livetiles"
-    Meteor.subscribe "trellocardmoves"
-    Meteor.subscribe "toggltimeentries"
-    Meteor.subscribe "users"
-    Meteor.subscribe "trellocards"
-    Meteor.subscribe "metrictiles"
+    Meteor.subscribe "livetiles", ->
+      Session.set("subscription_livetiles", true)
+    Meteor.subscribe "trellocardmoves", ->
+      Session.set("subscription_trellocardmoves", true)
+    Meteor.subscribe "toggltimeentries", ->
+      Session.set("subscription_toggltimeentries", true)
+    Meteor.subscribe "users", ->
+      Session.set("subscription_users", true)
+    Meteor.subscribe "trellocards", ->
+      Session.set("subscription_trellocards", true)
+    Meteor.subscribe "metrictiles", ->
+      Session.set("subscription_metrictiles", true)
    
 if Meteor.isServer
   Meteor.publish "toggltimeentries", ->
     startdate = new Date
     startdate.setDate(startdate.getDate()-90)
-    Toggl._collection.find({start: {$gte: startdate.toJSON()}})
+    Toggl._collection.find({$or: [{start: {$gte: startdate.toJSON()}}, {tag_names: "WBSO"}]})
   Meteor.publish "livetiles", ->
     LiveTiles.find({})
   Meteor.publish "users", ->

@@ -1,0 +1,45 @@
+.loader {
+  margin: 25% auto;
+  text-align: center;
+  position: relative;
+  width: 60%;
+}
+.loader span {
+  background: #222;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+}
+.loader .dot_1 {
+  margin-right: 10px;
+  animation: loading 3s cubic-bezier(0.645, 0.065, 0.365, 0.945) infinite;
+}
+.loader .dot_2 {
+  animation: loading 3s cubic-bezier(0.645, 0.065, 0.365, 0.945) .4s infinite;
+}
+.loader .dot_3 {
+  animation: loading 3s cubic-bezier(0.645, 0.065, 0.365, 0.945) .8s infinite;
+}
+.loader .dot_4 {
+  animation: loading 3s cubic-bezier(0.645, 0.065, 0.365, 0.945) 1.2s infinite;
+}
+.loader .dot_5 {
+  animation: loading 3s cubic-bezier(0.645, 0.065, 0.365, 0.945) 1.6s infinite;
+}
+@keyframes loading {
+  from {
+    margin-left: 50%;
+    opacity: 0;
+  }
+  50% {
+    margin-left: 0;
+    opacity: 1;
+  }
+  to {
+    margin-left: -50%;
+    opacity: 0;
+  }
+}

@@ -49,6 +49,14 @@ tiles:
             id: "timespan"
             label: "Time span"
         addtile: "toggl1"
+      - title: "WBSO hours"
+        index: 1
+        id: "operations2"
+        inputs:
+          - type: "timespan"
+            id: "timespan"
+            label: "Time span"
+        addtile: "wbso"
   - title: "Test"
     index: 2
     id: "text"

@@ -69,6 +69,9 @@ if Meteor.isClient
           when "bsc"
             general_options.title = "Balance Score"
             addTile "BSC", general_options
+          when "wbso"
+            general_options.title = "WBSO hours"
+            addTile "WBSO", general_options
 
         $("#tile-wizard").hide(400)
         Session.set("screenChoices", undefined)
