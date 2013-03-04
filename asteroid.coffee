@@ -117,6 +117,7 @@ if Meteor.isServer
     Meteor.setInterval ->
       TrelloCardMove.importMoves()
       TrelloCard.importCards()
+      Toggl.importTimeEntries()
      ,1000*3600
   	#Meteor.call 'getTogglTimeEntries', (e, result) ->
      # TimeEntries.remove({})
