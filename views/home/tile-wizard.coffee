@@ -23,6 +23,23 @@ if Meteor.isClient
     Template.tw_screen.equals = (l,r) ->
       l == r
 
+    Template.tw_screen.rendered = ->
+      $(".datepicker").datepicker();
+      $(".colorpicker").colorpicker();
+      $(document).foundationCustomForms();
+
+
+    Template.tile_wizard.events(
+      'click #close-wizard' : ->
+        $("#tile-wizard").hide(400)
+        Session.set("screenChoices", undefined)
+    )
+
+    Template.wizard_toggle.events(
+      'click #show-wizard' : ->
+        $("#tile-wizard").show(400)
+    )
+
     Template.tw_screen.events(
       'click .tilebutton' : (e) ->
         button = $(e.currentTarget)
@@ -77,23 +94,6 @@ if Meteor.isClient
         screenChoices = Session.get("screenChoices")
         screenChoices.pop()
         Session.set("screenChoices", screenChoices)
-    )
-
-    Template.tw_screen.rendered = ->
-      $(".datepicker").datepicker();
-      $(".colorpicker").colorpicker();
-      $(document).foundationCustomForms();
-
-
-    Template.tile_wizard.events(
-      'click #close-wizard' : ->
-        $("#tile-wizard").hide(400)
-        Session.set("screenChoices", undefined)
-    )
-
-    Template.wizard_toggle.events(
-      'click #show-wizard' : ->
-        $("#tile-wizard").show(400)
     )
 
 addTile = (type, options)->
