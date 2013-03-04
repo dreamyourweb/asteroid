@@ -120,7 +120,9 @@ class Minimongoid
     @_collection.find(selector, options)
 
   @findOne: (selector = {}, options = {}) ->
-    @_collection.findOne(selector, options)
+    obj = @new(@_collection.findOne(selector, options))
+    obj._saved_attributes = clone(obj.attributes)
+    obj
 
   @where: (selector = {}, options = {}) ->
     @all(selector,options)
