@@ -38,13 +38,16 @@ if Meteor.isClient
     else if this.type == "Text"
       "#{this.text}"
     else if this.type == "DealRatio"
-      m = DealRatio.bakeCurrentRatio({timespan: this.timespan, user: this.user})
+      m = (DealRatio.bakeCurrentRatio({timespan: this.timespan, user: this.user}) * 100)
       "#{m.toFixed(2)} %"
     else if this.type == "FlowTime"
       m = (FlowTime.bakeTimes({timespan: this.timespan, user: this.user})/3600/24)
       "#{m.toFixed(0)} dagen"
     else if this.type == "DealCash"
       m = (DealCash.bakeCurrentCash({timespan: this.timespan, user: this.user}))
+      "€#{m.toFixed(0)}"
+    else if this.type == "BSC"
+      m = (BSC.bakeCurrentBSC({timespan: this.timespan, user: this.user}))
       "€#{m.toFixed(0)}"
     else
       "#{this.row},#{this.col}"

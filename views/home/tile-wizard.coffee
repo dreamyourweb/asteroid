@@ -66,6 +66,9 @@ if Meteor.isClient
           when "dealcash"
             general_options.title = "Deal cash"
             addTile "DealCash", general_options
+          when "bsc"
+            general_options.title = "Balance Score"
+            addTile "BSC", general_options
 
         $("#tile-wizard").hide(400)
         Session.set("screenChoices", undefined)

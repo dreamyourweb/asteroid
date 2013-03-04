@@ -29,6 +29,14 @@ tiles:
             id: "timespan"
             label: "Time span"
         addtile: "dealcash"
+      - title: "Balance Score"
+        index: 3
+        id: "sales_bsc"
+        inputs:
+          - type: "timespan"
+            id: "timespan"
+            label: "Time span"
+        addtile: "bsc"
   - title: "Operations"
     index: 1
     id: "operations"
