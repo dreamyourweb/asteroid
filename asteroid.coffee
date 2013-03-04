@@ -99,7 +99,9 @@ if Meteor.isClient
    
 if Meteor.isServer
   Meteor.publish "toggltimeentries", ->
-    Toggl._collection.find({})
+    startdate = new Date
+    startdate.setDate(startdate.getDate()-90)
+    Toggl._collection.find({start: {$gte: startdate.toJSON()}})
   Meteor.publish "livetiles", ->
     LiveTiles.find({})
   Meteor.publish "users", ->
