@@ -26,9 +26,19 @@ checkSessions = (session_vars) ->
 
 if Meteor.isClient
 
+  $ ->
+    $(".loader").show()
+
   Meteor.Router.add
     '/': 'page_home'
     '/test': 'page_test'
+
+    '/WBSO': 'WBSO'
+    '/DealRatio': 'DealRatio'
+    '/DealCash': 'DealCash'
+    '/FlowTime': 'FlowTime'
+    '/Toggl': 'Toggl'
+    '/BSC': 'BSC'
 
   Template.page_home.events(
     'click #toggle-wizard' : ->
@@ -38,7 +48,7 @@ if Meteor.isClient
   Template.gridster.tiles = ->
     if checkSessions(["subscription_livetiles","subscription_trellocardmoves","subscription_toggltimeentries","subscription_users","subscription_trellocards","subscription_metrictiles"])
       $(".loader").hide()
-      LiveTiles.find().fetch()
+      LiveTiles.find()
 
   Template.tile.metric = ->
     result = if this.type == "Toggl"

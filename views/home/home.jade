@@ -29,7 +29,10 @@ template(name="gridster")
 
 template(name="tile")
   li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile {{alert}}", id="{{_id}}", style="background: {{color}}")
-    a(href="", class="remove-tile") &times
+    a(href="", class="remove-tile")
+      i.general.foundicon-remove
+    a(href="/{{type}}", class="tile-settings")
+      i.general.foundicon-settings
     h2
       {{#isolate}}
         {{metric}}
