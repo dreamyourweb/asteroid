@@ -10,7 +10,7 @@ template(name="page_home")
           i.general.foundicon-plus#wizard-toggle
       
   .row
-    .twelve.columns
+    .twelve.columns.no-padding
       .loader
         span.dot_1
         span.dot_2
@@ -20,7 +20,22 @@ template(name="page_home")
 
       {{> gridster}}
 
+  .row.gridster-header
+    .eight.columns
+      h1.title Github pushes
+      
+  .row
+    .twelve.columns.no-padding
+      {{> github}}
+
 template(name="gridster")
+  .gridster
+    ul
+      {{#each tiles}}
+        {{> tile}}
+      {{/each}}
+
+template(name="github")
   .gridster
     ul
       {{#each tiles}}

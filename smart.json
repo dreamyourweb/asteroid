@@ -1,7 +1,7 @@
 {
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
-    "branch": "devel"
+    "branch": "master"
   },
   "packages": {
     "stylus-mixin": {},
@@ -15,6 +15,7 @@
     "HTML5-History-API": {},
     "page-js": {},
     "animate-css": {},
-    "gravatar": {}
+    "gravatar": {},
+    "nvd3": {}
   }
 }

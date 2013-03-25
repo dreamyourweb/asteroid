@@ -119,17 +119,20 @@ class Minimongoid
   @find: (selector = {}, options = {}) ->
     @_collection.find(selector, options)
 
+  @update: (selector = {}, options = {}) ->
+    @_collection.update(selector, options)
+
   @findOne: (selector = {}, options = {}) ->
     obj = @new(@_collection.findOne(selector, options))
     obj._saved_attributes = clone(obj.attributes)
     obj
 
   @where: (selector = {}, options = {}) ->
-    @all(selector,options)
+    @_collection.find(selector, options)
 
   @all: (selector = {}, options = {}) ->
     docs = []
-    for i, obj of @_collection.find(selector, options).fetch()
+    for i, obj of @where(selector, options).fetch()
       new_obj = @new(obj)
       new_obj._saved_attributes = clone(new_obj.attributes)
       docs.push(new_obj)

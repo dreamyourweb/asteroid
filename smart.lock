@@ -1,8 +1,7 @@
 {
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
-    "branch": "devel",
-    "commit": "8c6960b8dbfa4918d4582b89d15ba29a0be9975f"
+    "branch": "master"
   },
   "dependencies": {
     "basePackages": {

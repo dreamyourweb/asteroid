@@ -48,7 +48,7 @@ if Meteor.isClient
   Template.gridster.tiles = ->
     if checkSessions(["subscription_livetiles","subscription_trellocardmoves","subscription_toggltimeentries","subscription_users","subscription_trellocards","subscription_metrictiles"])
       $(".loader").hide()
-      LiveTiles.find()
+      LiveTiles.find().fetch() #We have to use fetch to force rerendering all tiles. Otherwise gridster fucks up.
 
   Template.tile.metric = ->
     result = if this.type == "Toggl"

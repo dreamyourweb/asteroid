@@ -3,16 +3,16 @@ Meteor.methods populateUsers: ->
   Meteor.users.remove({})
  
   Accounts.createUser({profile: {full_name: "Andres Lamont"}, username: "andres", email: "andres@dreamyourweb.nl", password:"dreamyourasteroid"})
-  Meteor.users.update {'username': "andres"} , {$set: {'toggl.id': 190122, 'toggl.api_token': "4e028d46877b997bdd89ceb4130ae00e"}}
+  Meteor.users.update {'username': "andres"} , {$set: {'toggl.id': 190122, 'toggl.api_token': _TOGGL_ANDRES_TOKEN}}
  
   Accounts.createUser({profile: {full_name: "Bram den Teuling"}, username: "bram", email: "bram@dreamyourweb.nl", password:"dreamyourasteroid"})
-  Meteor.users.update {'username': "bram"} , {$set: {'toggl.id': 190130, 'toggl.api_token': "9417c9415250f1c8af23d1169b5fbd01"}}
+  Meteor.users.update {'username': "bram"} , {$set: {'toggl.id': 190130, 'toggl.api_token': _TOGGL_BRAM_TOKEN}}
  
   Accounts.createUser({profile: {full_name: "Luc Vandewall"}, username: "luc", email: "luc@dreamyourweb.nl", password:"dreamyourasteroid"})
-  Meteor.users.update {'username': "luc"} , {$set: {'toggl.id': 190125, 'toggl.api_token': "b60c643fadd65de8486024263deca6f3"}} 
+  Meteor.users.update {'username': "luc"} , {$set: {'toggl.id': 190125, 'toggl.api_token': _TOGGL_LUC_TOKEN}} 
 
   Accounts.createUser({profile: {full_name: "Thijs van de Laar"}, username: "thijs", email: "thijs@dreamyourweb.nl", password:"dreamyourasteroid"})
-  Meteor.users.update {'username': "thijs"} , {$set: {'toggl.id': 190124, 'toggl.api_token': "efb356cec4332c312a3390f93f1e1936"}}
+  Meteor.users.update {'username': "thijs"} , {$set: {'toggl.id': 190124, 'toggl.api_token': _TOGGL_THIJS_TOKEN}}
  
   Meteor.call('getTrelloUserData')
 
@@ -41,7 +41,7 @@ Meteor.methods getTogglUserData: ->
   result = Meteor.http.call(
     "GET"
     "https://www.toggl.com/api/v6/workspaces/#{Toggl.workspace}/users.json"
-    auth: "4e028d46877b997bdd89ceb4130ae00e:api_token"
+    auth: "#{_TOGGL_ANDRES_TOKEN}:api_token"
   )
 
   return result if result.statusCode is 200
