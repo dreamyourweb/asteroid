@@ -111,6 +111,14 @@ if Meteor.isClient
       )
     )
 
+  $ ->
+    $('body').css('zoom', $(window).width()/1920)
+
+  $(window).resize ->
+    $('body').css('zoom', $(window).width()/1920)
+
+
+
   Meteor.autorun ->
     Meteor.subscribe "livetiles", ->
       Session.set("subscription_livetiles", true)
