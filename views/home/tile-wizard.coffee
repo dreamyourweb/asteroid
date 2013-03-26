@@ -72,6 +72,8 @@ if Meteor.isClient
           when "wbso"
             general_options.title = "WBSO hours"
             addTile "WBSO", general_options
+          when "github_push"
+            addTile "LatestCommit", general_options
 
         $("#tile-wizard").hide(400)
         Session.set("screenChoices", undefined)

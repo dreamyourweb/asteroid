@@ -57,8 +57,20 @@ tiles:
             id: "timespan"
             label: "Time span"
         addtile: "wbso"
-  - title: "Test"
+  - title: "Code"
     index: 2
+    id: "code"
+    tiles:
+      - title: "Github Pushes"
+        index: 0
+        id: "github_pushes"
+        inputs:
+          - type: "text"
+            id: "repo"
+            label: "Repository name"
+        addtile: "github_push"
+  - title: "Test"
+    index: 3
     id: "text"
     inputs:
       - type: "text"
