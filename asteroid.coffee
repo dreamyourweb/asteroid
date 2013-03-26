@@ -132,7 +132,9 @@ if Meteor.isClient
       Session.set("subscription_trellocards", true)
     Meteor.subscribe "metrictiles", ->
       Session.set("subscription_metrictiles", true)
-   
+    Meteor.subscribe "repos"
+    Meteor.subscribe "commits"
+
 if Meteor.isServer
   Meteor.publish "toggltimeentries", ->
     startdate = new Date
@@ -147,13 +149,17 @@ if Meteor.isServer
         user_id: 1
     )
   Meteor.publish "livetiles", ->
-    LiveTiles.find({})
+    LiveTiles.find()
   Meteor.publish "users", ->
-    Meteor.users.find({})
+    Meteor.users.find()
   Meteor.publish "trellocards", ->
-    TrelloCard._collection.find({})
+    TrelloCard._collection.find()
   Meteor.publish "metrictiles", ->
-    MetricTile._collection.find({})
+    MetricTile._collection.find()
+  Meteor.publish "repos", ->
+    Repo._collection.find()
+  Meteor.publish "commits", ->
+    Commit._collection.find()
   Meteor.publish "trellocardmoves", ->
     TrelloCardMove._collection.find({},
     fields:
@@ -168,7 +174,7 @@ if Meteor.isServer
       Toggl.importTimeEntries()
      ,1000*3600
   	#Meteor.call 'getTogglTimeEntries', (e, result) ->
-     # TimeEntries.remove({})
+     # TimeEntries.remove()
       #TimeEntries.insertFromJSON(JSON.parse(result.content))
       
 

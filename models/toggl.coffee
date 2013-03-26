@@ -30,7 +30,7 @@ class Toggl extends Minimongoid
               entry.start = new Date(entry.start).toJSON()
               entry.stop = new Date(entry.stop).toJSON()
               delete entry['id']
-              if (old_entry = Toggl.where({togglId: togglId})[0]) != undefined
+              if (old_entry = Toggl.findOne({togglId: togglId})) != undefined
                 console.log(old_entry.update entry)
               else
                 console.log(Toggl.create entry)

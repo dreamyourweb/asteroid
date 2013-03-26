@@ -123,9 +123,10 @@ class Minimongoid
     @_collection.update(selector, options)
 
   @findOne: (selector = {}, options = {}) ->
-    obj = @new(@_collection.findOne(selector, options))
-    obj._saved_attributes = clone(obj.attributes)
-    obj
+    if @_collection.findOne(selector, options)
+      obj = @new(@_collection.findOne(selector, options))
+      obj._saved_attributes = clone(obj.attributes)
+      obj
 
   @where: (selector = {}, options = {}) ->
     @_collection.find(selector, options)
@@ -137,6 +138,9 @@ class Minimongoid
       new_obj._saved_attributes = clone(new_obj.attributes)
       docs.push(new_obj)
     return docs
+
+  @toArray: (selector = {}, options = {}) ->
+    @toArray selector, options
 
   @toArray: (selector = {}, options = {}) ->
     for attributes in @where(selector, options).fetch()
