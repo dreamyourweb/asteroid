@@ -83,19 +83,19 @@ if Meteor.isClient
     return result
 
   Template.github_tile.message = ->
-    result = if commit = Commit.findOne({repo_id: this.repo})
+    result = if commit = Commit.findOne({repo_id: this.repo}, {sort: {date: -1}})
       commit.message
 
   Template.github_tile.repo_name = ->
-    result = if commit = Commit.findOne({repo_id: this.repo})
+    result = if commit = Commit.findOne({repo_id: this.repo}, {sort: {date: -1}})
       commit.repo_name
 
   Template.github_tile.committer = ->
-    result = if commit = Commit.findOne({repo_id: this.repo})
+    result = if commit = Commit.findOne({repo_id: this.repo}, {sort: {date: -1}})
       commit.commiter
 
   Template.github_tile.gravatar_url = ->
-    result = if commit = Commit.findOne({repo_id: this.repo})
+    result = if commit = Commit.findOne({repo_id: this.repo}, {sort: {date: -1}})
       commit.gravatar_url
 
   Template.tile.rendered = ->
