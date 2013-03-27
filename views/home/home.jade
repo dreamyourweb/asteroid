@@ -39,7 +39,7 @@ template(name="github")
   .gridster
     ul
       {{#each tiles}}
-        {{> tile}}
+        {{> github_tile}}
       {{/each}}
 
 template(name="tile")
@@ -59,3 +59,14 @@ template(name="tile")
       img.gravatar(src="{{gravatar_url}}")
     {{/if}}
 
+template(name="github_tile")
+  li("data-col"="{{col}}", "data-row"="{{row}}", "data-sizex"="{{size_x}}", "data-sizey"="{{size_y}}", class="metro-tile {{alert}}", id="{{_id}}", style="background: {{color}}")
+    a(href="", class="remove-tile")
+      i.general.foundicon-remove
+    a(href="/{{type}}", class="tile-settings")
+      i.general.foundicon-settings
+    h4 {{repo_name}}
+    .commit-text
+      p {{message}}
+    h6 {{committer}}
+    img.gravatar(src="{{gravatar_url}}")

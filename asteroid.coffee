@@ -48,7 +48,12 @@ if Meteor.isClient
   Template.gridster.tiles = ->
     if checkSessions(["subscription_livetiles","subscription_trellocardmoves","subscription_toggltimeentries","subscription_users","subscription_trellocards","subscription_metrictiles"])
       $(".loader").hide()
-      LiveTiles.find().fetch() #We have to use fetch to force rerendering all tiles. Otherwise gridster fucks up.
+      LiveTiles.find({type: {$ne: "LatestCommit"}}).fetch() #We have to use fetch to force rerendering all tiles. Otherwise gridster fucks up.
+
+  Template.github.tiles = ->
+    if checkSessions(["subscription_livetiles","subscription_trellocardmoves","subscription_toggltimeentries","subscription_users","subscription_trellocards","subscription_metrictiles"])
+      $(".loader").hide()
+      LiveTiles.find({type: "LatestCommit"}).fetch() #We have to use fetch to force rerendering all tiles. Otherwise gridster fucks up.
 
   Template.tile.metric = ->
     result = if this.type == "Toggl"
@@ -77,6 +82,22 @@ if Meteor.isClient
     Session.set("metric-#{this._id}", m)
     return result
 
+  Template.github_tile.message = ->
+    result = if commit = Commit.findOne({repo_id: this.repo})
+      commit.message
+
+  Template.github_tile.repo_name = ->
+    result = if commit = Commit.findOne({repo_id: this.repo})
+      commit.repo_name
+
+  Template.github_tile.committer = ->
+    result = if commit = Commit.findOne({repo_id: this.repo})
+      commit.commiter
+
+  Template.github_tile.gravatar_url = ->
+    result = if commit = Commit.findOne({repo_id: this.repo})
+      commit.gravatar_url
+
   Template.tile.rendered = ->
     metric = Session.get("metric-#{this.data._id}")
     tile = $("##{this.data._id}")
@@ -99,6 +120,19 @@ if Meteor.isClient
     )
 
   Template.gridster.rendered = ->
+    $('.gridster ul').gridster(
+      widget_margins: [10, 10]
+      widget_base_dimensions: [140, 140]
+      serialize_params: ($w, wgd) ->
+        (id: wgd.el[0].id, col: wgd.col, row: wgd.row, size_x: wgd.size_x, size_y: wgd.size_y)
+      draggable: (
+        stop: ->
+          changed_tiles = $('.gridster ul').gridster().data('gridster').serialize_changed()
+          updateTiles(changed_tiles)
+      )
+    )
+
+  Template.github.rendered = ->
     $('.gridster ul').gridster(
       widget_margins: [10, 10]
       widget_base_dimensions: [140, 140]

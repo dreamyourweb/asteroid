@@ -73,6 +73,7 @@ if Meteor.isClient
             general_options.title = "WBSO hours"
             addTile "WBSO", general_options
           when "github_push"
+            general_options.repo = Repo.findOne({name: $("input#repo").val()})._id
             addTile "LatestCommit", general_options
 
         $("#tile-wizard").hide(400)
@@ -120,5 +121,7 @@ addTile = (type, options)->
   tile = gridster.serialize(tile)[0]
   Meteor.setTimeout ->
     updateTiles()
-    LiveTiles.insert {timespan: options.timespan, title: options.title, col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, text: options.text, type: type, color: options.color, threshold: options.threshold, threshold_operator: options.threshold_operator, user: options.user, gravatar_url: gravatar_url}
+    all_options = _.extend options, {col: tile.col, row: tile.row, size_x: tile.size_x, size_y: tile.size_y, gravatar_url: gravatar_url, type: type}
+    console.log all_options
+    LiveTiles.insert all_options
     ,1000

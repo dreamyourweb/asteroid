@@ -33,7 +33,7 @@ Meteor.methods
           repo_name: repo.name
           commiter: commit.commit.committer.name
           date: commit.commit.committer.date
-          messge: commit.message
+          message: commit.commit.message
 
         if commit.committer != undefined && commit.committer != null
           new_commit.gravatar_url = commit.committer.avatar_url
